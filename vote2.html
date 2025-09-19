@@ -77,112 +77,107 @@
     </button>
   </div>
 
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzidGgaynk8KQ91FsobMGrQJmK7jF8HlRO8pGvAqOtkuaMkwbGL0RVLQcqd-4aX89Xh7w/exec";
-  let selected = JSON.parse(localStorage.getItem("selectedVotes")) || [];
+    <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzidGgaynk8KQ91FsobMGrQJmK7jF8HlRO8pGvAqOtkuaMkwbGL0RVLQcqd-4aX89Xh7w/exec"; 
+    let selected = JSON.parse(localStorage.getItem("selectedVotes")) || [];
 
-
-// Disable kandidat yg sudah dipilih sebelumnya
-window.onload = () => {
-  selected.forEach(name => {
-    const card = [...document.querySelectorAll(".card")]
-      .find(c => c.querySelector("h2").textContent === name);
-    if (card) {
-      const btn = card.querySelector("button");
-        if (selected.length >= 2) disableAllButtons();
-    }
-  });
-};
-
-
-  function vote(name, btn) {
-    if (selected.length >= 2) {
-      showDialog("⚠️ Batas 2 kandidat", "Kamu hanya bisa memilih maksimal 2 kandidat.");
-      return;
-    }
-
-    const device = localStorage.getItem("deviceId") || generateDeviceId();
-    localStorage.setItem("deviceId", device);
-
-    const data = new URLSearchParams();
-    data.append("pilihan", name);
-    data.append("device", device);
-
-    // ⏳ tampilkan loading dialog
-    const loader = showLoading("Menyimpan vote...");
-
-    btn.disabled = true; // cegah klik dobel
-
-    fetch(scriptURL, { method: "POST", body: data })
-      .then(res => res.json())
-      .then(res => {
-        loader.remove(); // hapus loading
-        if (res.status === "success") {
-          selected.push(name);
-          localStorage.setItem("selectedVotes", JSON.stringify(selected));
-          disableButton(btn);
-          showDialog("✅ Berhasil", "Vote untuk " + name + " berhasil disimpan!");
-        } else {
-          btn.disabled = false; // aktifkan lagi kalau gagal
-          showDialog("❌ Gagal", "Gagal menyimpan vote: " + res.message);
-        }
-      })
-      .catch(err => {
-        loader.remove();
-        btn.disabled = false;
-        showDialog("⚠️ Error", err);
+    window.onload = () => {
+      selected.forEach(name => {
+        const btn = findButton(name);
+        if (btn) disableButton(btn, true);
       });
-  }
+      if (selected.length >= 2) disableAllButtons();
+    };
 
-  function disableButton(btn) {
-    btn.disabled = true;
-    btn.textContent = "Sudah Dipilih";
-  }
+    function vote(name, btn) {
+      if (selected.length >= 2) {
+        showMessage("Batas Tercapai", "Kamu hanya bisa memilih 2 kandidat!");
+        return;
+      }
 
-  function resetVotes() {
-    const key = document.getElementById("resetKey").value;
-    if (key === "RESET123") {
-      localStorage.removeItem("selectedVotes");
-      selected = [];
-      location.reload();
-    } else {
-      showDialog("❌ Salah", "Reset key salah!");
+      showLoading();
+      disableButton(btn, true);
+
+      const device = localStorage.getItem("deviceId") || generateDeviceId();
+      localStorage.setItem("deviceId", device);
+
+      const data = new URLSearchParams();
+      data.append("pilihan", name);
+      data.append("device", device);
+
+      fetch(scriptURL, { method: "POST", body: data })
+        .then(res => res.json())
+        .then(res => {
+          hideLoading();
+          if (res.status === "success") {
+            selected.push(name);
+            localStorage.setItem("selectedVotes", JSON.stringify(selected));
+            disableButton(btn, true);
+            if (selected.length >= 2) disableAllButtons();
+            showMessage("Berhasil", "Vote untuk " + name + " berhasil disimpan!");
+          } else {
+            disableButton(btn, false);
+            showMessage("Gagal", "Gagal menyimpan vote: " + res.message);
+          }
+        })
+        .catch(err => {
+          hideLoading();
+          disableButton(btn, false);
+          showMessage("Error", "Terjadi kesalahan: " + err);
+        });
     }
-  }
 
-  function generateDeviceId() {
-    return "device-" + Math.random().toString(36).substr(2, 9);
-  }
+    function disableButton(btn, permanently) {
+      btn.disabled = true;
+      btn.classList.remove("bg-blue-500", "hover:bg-blue-600");
+      btn.classList.add("bg-gray-400", "cursor-not-allowed");
+      if (permanently) btn.textContent = "Sudah Dipilih";
+      else btn.textContent = "Pilih";
+    }
 
-  // ✅ dialog sukses/gagal
-  function showDialog(title, message) {
-    const dialog = document.createElement("div");
-    dialog.className = "fixed inset-0 flex items-center justify-center bg-black/50 z-50";
-    dialog.innerHTML = `
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl max-w-sm w-full text-center animate-fadeIn">
-        <h3 class="text-lg font-bold mb-2">${title}</h3>
-        <p class="text-gray-600 dark:text-gray-300 mb-4">${message}</p>
-        <button onclick="this.closest('.fixed').remove()" 
-          class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition">OK</button>
-      </div>
-    `;
-    document.body.appendChild(dialog);
-  }
+    function disableAllButtons() {
+      document.querySelectorAll(".vote-btn").forEach(b => {
+        if (!b.disabled) disableButton(b, false);
+      });
+    }
 
-  // ⏳ dialog loading
-  function showLoading(message) {
-    const dialog = document.createElement("div");
-    dialog.className = "fixed inset-0 flex items-center justify-center bg-black/50 z-50";
-    dialog.innerHTML = `
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl flex flex-col items-center space-y-3 animate-fadeIn">
-        <div class="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        <p class="text-gray-600 dark:text-gray-300">${message}</p>
-      </div>
-    `;
-    document.body.appendChild(dialog);
-    return dialog;
-  }
-</script>
+    function resetVotes() {
+      const key = document.getElementById("resetKey").value;
+      if (key === "RESET123") {
+        localStorage.removeItem("selectedVotes");
+        selected = [];
+        location.reload();
+      } else {
+        showMessage("Reset Gagal", "Reset key salah!");
+      }
+    }
 
+    function generateDeviceId() {
+      return "device-" + Math.random().toString(36).substr(2, 9);
+    }
+
+    function showLoading() {
+      document.getElementById("loading").classList.remove("hidden");
+    }
+
+    function hideLoading() {
+      document.getElementById("loading").classList.add("hidden");
+    }
+
+    function showMessage(title, text) {
+      document.getElementById("messageTitle").innerText = title;
+      document.getElementById("messageText").innerText = text;
+      document.getElementById("messageDialog").classList.remove("hidden");
+    }
+
+    function closeMessage() {
+      document.getElementById("messageDialog").classList.add("hidden");
+    }
+
+    function findButton(name) {
+      return [...document.querySelectorAll(".vote-btn")]
+        .find(b => b.getAttribute("onclick").includes(name));
+    }
+  </script>
 </body>
 </html>

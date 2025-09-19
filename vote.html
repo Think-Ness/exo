@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemilihan Ketua</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    // Aktifkan dark mode otomatis
+    tailwind.config = {
+      darkMode: 'media', // otomatis mengikuti sistem
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3b82f6",
+            primaryDark: "#2563eb"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+
+  <h1 class="text-3xl font-extrabold mb-8 tracking-wide">Pemilihan Ketua Organisasi</h1>
+
+  <div id="cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
+      <h2 class="font-semibold text-lg">Kandidat 1</h2>
+      <button onclick="vote('Kandidat 1', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Pilih
+      </button>
+    </div>
+    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
+      <h2 class="font-semibold text-lg">Kandidat 2</h2>
+      <button onclick="vote('Kandidat 2', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Pilih
+      </button>
+    </div>
+    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
+      <h2 class="font-semibold text-lg">Kandidat 3</h2>
+      <button onclick="vote('Kandidat 3', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Pilih
+      </button>
+    </div>
+    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
+      <h2 class="font-semibold text-lg">Kandidat 4</h2>
+      <button onclick="vote('Kandidat 4', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Pilih
+      </button>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <div class="mt-8 w-full max-w-md text-center">
+    <input id="resetKey" type="text" placeholder="Masukkan reset key"
+      class="border rounded-lg px-4 py-2 w-2/3" />
+    <button onclick="resetVotes()" class="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+      Reset
+    </button>
+  </div>
+
+  <!-- Loading Dialog -->
+  <div id="loading" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+    <div class="bg-white p-6 rounded-xl shadow-lg flex items-center space-x-3">
+      <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-gray-700">Menyimpan pilihan...</span>
+    </div>
+  </div>
+
+  <!-- Success/Error Dialog -->
+  <div id="messageDialog" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+    <div class="bg-white p-6 rounded-xl shadow-lg text-center w-80">
+      <h2 id="messageTitle" class="text-lg font-bold mb-2">Berhasil</h2>
+      <p id="messageText" class="text-gray-600 mb-4">Vote kamu sudah tersimpan.</p>
+      <button onclick="closeMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzidGgaynk8KQ91FsobMGrQJmK7jF8HlRO8pGvAqOtkuaMkwbGL0RVLQcqd-4aX89Xh7w/exec"; 
+    let selected = JSON.parse(localStorage.getItem("selectedVotes")) || [];
+
+    window.onload = () => {
+      selected.forEach(name => {
+        const btn = findButton(name);
+        if (btn) disableButton(btn, true);
+      });
+      if (selected.length >= 2) disableAllButtons();
+    };
+
+    function vote(name, btn) {
+      if (selected.length >= 2) {
+        showMessage("Batas Tercapai", "Kamu hanya bisa memilih 2 kandidat!");
+        return;
+      }
+
+      showLoading();
+      disableButton(btn, true);
+
+      const device = localStorage.getItem("deviceId") || generateDeviceId();
+      localStorage.setItem("deviceId", device);
+
+      const data = new URLSearchParams();
+      data.append("pilihan", name);
+      data.append("device", device);
+
+      fetch(scriptURL, { method: "POST", body: data })
+        .then(res => res.json())
+        .then(res => {
+          hideLoading();
+          if (res.status === "success") {
+            selected.push(name);
+            localStorage.setItem("selectedVotes", JSON.stringify(selected));
+            disableButton(btn, true);
+            if (selected.length >= 2) disableAllButtons();
+            showMessage("Berhasil", "Vote untuk " + name + " berhasil disimpan!");
+          } else {
+            disableButton(btn, false);
+            showMessage("Gagal", "Gagal menyimpan vote: " + res.message);
+          }
+        })
+        .catch(err => {
+          hideLoading();
+          disableButton(btn, false);
+          showMessage("Error", "Terjadi kesalahan: " + err);
+        });
+    }
+
+    function disableButton(btn, permanently) {
+      btn.disabled = true;
+      btn.classList.remove("bg-blue-500", "hover:bg-blue-600");
+      btn.classList.add("bg-gray-400", "cursor-not-allowed");
+      if (permanently) btn.textContent = "Sudah Dipilih";
+      else btn.textContent = "Pilih";
+    }
+
+    function disableAllButtons() {
+      document.querySelectorAll(".vote-btn").forEach(b => {
+        if (!b.disabled) disableButton(b, false);
+      });
+    }
+
+    function resetVotes() {
+      const key = document.getElementById("resetKey").value;
+      if (key === "RESET123") {
+        localStorage.removeItem("selectedVotes");
+        selected = [];
+        location.reload();
+      } else {
+        showMessage("Reset Gagal", "Reset key salah!");
+      }
+    }
+
+    function generateDeviceId() {
+      return "device-" + Math.random().toString(36).substr(2, 9);
+    }
+
+    function showLoading() {
+      document.getElementById("loading").classList.remove("hidden");
+    }
+
+    function hideLoading() {
+      document.getElementById("loading").classList.add("hidden");
+    }
+
+    function showMessage(title, text) {
+      document.getElementById("messageTitle").innerText = title;
+      document.getElementById("messageText").innerText = text;
+      document.getElementById("messageDialog").classList.remove("hidden");
+    }
+
+    function closeMessage() {
+      document.getElementById("messageDialog").classList.add("hidden");
+    }
+
+    function findButton(name) {
+      return [...document.querySelectorAll(".vote-btn")]
+        .find(b => b.getAttribute("onclick").includes(name));
+    }
+  </script>
+</body>
+</html>
