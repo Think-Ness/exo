@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Entry & Lihat Data — Modern Tailwind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #overlayLoader { display:none; }
+    #toast { display:none; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center p-6">
+  <main class="w-full max-w-5xl">
+    <section class="bg-white dark:bg-slate-800 shadow-lg rounded-2xl p-6 sm:p-10">
+      <header class="mb-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-slate-100">Hasil Entry Data</h1>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-300">Data ini ditarik langsung dari Google Spreadsheet via API.</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="refreshBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-4 py-2 font-medium shadow-sm">Refresh</button>
+          <button id="addBtn" class="bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 font-medium shadow-sm">Tambah</button>
+        </div>
+      </header>
+
+      <!-- Search -->
+      <div class="mb-4">
+        <input id="search" type="text" placeholder="🔍 Cari data..." class="w-full sm:w-1/3 border rounded-lg px-3 py-2 text-sm dark:bg-slate-700 dark:text-white"/>
+      </div>
+
+      <!-- Tabel Data -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+          <thead class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
+            <tr>
+              <th class="px-4 py-2">Tanggal</th>
+              <th class="px-4 py-2">Nama</th>
+              <th class="px-4 py-2">Email</th>
+              <th class="px-4 py-2">Pesan</th>
+            </tr>
+          </thead>
+          <tbody id="dataTable" class="divide-y divide-slate-100 dark:divide-slate-700 text-slate-800 dark:text-slate-100">
+            <tr>
+              <td colspan="4" class="px-4 py-4 text-center text-slate-500">Memuat data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="flex justify-center mt-4 gap-1"></div>
+    </section>
+
+    <!-- Loader Overlay -->
+    <div id="overlayLoader" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <div class="bg-white px-6 py-4 rounded-lg shadow">⏳ Memuat...</div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">✅ Data berhasil disimpan</div>
+
+    <!-- Modal Tambah Data -->
+    <div id="modalForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg w-full max-w-md p-6 relative">
+        <button id="closeModal" class="absolute top-2 right-2 text-slate-400 hover:text-slate-600">✖</button>
+        <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-100">Tambah Data Baru</h2>
+        <form id="entryForm" class="space-y-4" method="POST">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nama</label>
+            <input type="text" name="Nama" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
+            <input type="email" name="Email" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Pesan</label>
+            <textarea name="Pesan" rows="3" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"></textarea>
+          </div>
+          <div id="formLoader" class="hidden text-sm text-slate-500">⏳ Mengirim...</div>
+          <div class="flex justify-end gap-2">
+            <button type="button" id="closeModal2" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-500">Batal</button>
+            <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">Made with ♥ • Modern Tailwind • Responsive</footer>
+  </main>
+
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzzpWtBwfsAP8-PeFpp-JqHSDLdlJt6DGpWayerEBGUDzULXa8nz5flkbz-cmtaprm45w/exec"; 
+  let currentPage = 1;
+  const perPage = 5;
+  let allData = [];
+
+  function showOverlayLoader(){ document.getElementById("overlayLoader").style.display="flex"; }
+  function hideOverlayLoader(){ document.getElementById("overlayLoader").style.display="none"; }
+
+  async function loadData(){
+    showOverlayLoader();
+    const res = await fetch(API_URL);
+    allData = await res.json();
+    allData = allData.reverse(); // terbaru di atas
+    hideOverlayLoader();
+    renderList();
+  }
+
+  function renderList(){
+    const search = document.getElementById('search').value.toLowerCase();
+    const filtered = allData.filter(item =>
+      (item.Nama||"").toLowerCase().includes(search) ||
+      (item.Email||"").toLowerCase().includes(search) ||
+      (item.Pesan||"").toLowerCase().includes(search)
+    );
+
+    const start = (currentPage - 1) * perPage;
+    const paginated = filtered.slice(start, start + perPage);
+
+    document.getElementById("dataTable").innerHTML = paginated.map(d => `
+      <tr>
+        <td class="px-4 py-2">${d.Timestamp ||  ""}</td>
+        <td class="px-4 py-2">${d.Nama || ""}</td>
+        <td class="px-4 py-2">${d.Email || ""}</td>
+        <td class="px-4 py-2">${d.Pesan || ""}</td>
+      </tr>
+    `).join("");
+
+    renderPagination(Math.ceil(filtered.length / perPage), currentPage);
+  }
+
+  function renderPagination(totalPages, current){
+    const pagination = document.getElementById("pagination");
+    let buttons = "";
+    if (current > 1) buttons += `<button onclick="gotoPage(${current-1})" class="px-2">« Prev</button>`;
+    for (let i = 1; i <= totalPages; i++){
+      buttons += `<button onclick="gotoPage(${i})" class="px-3 py-1 rounded ${i===current?'bg-blue-500 text-white':'bg-slate-200'}">${i}</button>`;
+    }
+    if (current < totalPages) buttons += `<button onclick="gotoPage(${current+1})" class="px-2">Next »</button>`;
+    pagination.innerHTML = buttons;
+  }
+
+  function gotoPage(p){ currentPage=p; renderList(); }
+
+  function openModal(){ document.getElementById("modalForm").classList.remove("hidden"); }
+  function closeModal(){ document.getElementById("modalForm").classList.add("hidden"); }
+
+  document.getElementById("addBtn").addEventListener("click", openModal);
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  document.getElementById("closeModal2").addEventListener("click", closeModal);
+  document.getElementById("refreshBtn").addEventListener("click", loadData);
+
+  document.getElementById("entryForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+    document.getElementById("formLoader").classList.remove("hidden");
+
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    document.getElementById("formLoader").classList.add("hidden");
+    e.target.reset();
+    closeModal();
+    showToast();
+    loadData();
+  });
+
+  document.getElementById("search").addEventListener("input", renderList);
+
+  function showToast(){
+    const toast = document.getElementById("toast");
+    toast.style.display="block";
+    setTimeout(()=> toast.style.display="none", 3000);
+  }
+
+  loadData();
+</script>
+</body>
+</html>

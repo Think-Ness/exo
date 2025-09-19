@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Saran</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #overlayLoader { display:none; }
+    #toast { display:none; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center py-10">
+
+  <div class="bg-white shadow-lg rounded-2xl w-11/12 max-w-3xl p-6">
+    <h1 class="text-2xl font-bold text-slate-700 mb-4">📋 Data Saran</h1>
+
+    <!-- Actions -->
+    <div class="flex justify-between items-center mb-4">
+      <input id="search" type="text" placeholder="🔍 Cari..." class="border rounded px-3 py-2 w-1/2">
+      <div class="flex gap-2">
+        <button onclick="loadData()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Refresh</button>
+        <button onclick="openModal()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Tambah</button>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div id="listSaran" class="space-y-3"></div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="flex justify-center mt-4 gap-1"></div>
+  </div>
+
+  <!-- Loader Overlay -->
+  <div id="overlayLoader" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-white px-6 py-4 rounded-lg shadow">⏳ Memuat...</div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">✅ Data berhasil disimpan</div>
+
+  <!-- Modal Form -->
+  <div id="modalForm" class="hidden fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div class="bg-white rounded-xl shadow-lg w-96 p-6 relative">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-slate-400 hover:text-slate-600">✖</button>
+      <h2 class="text-lg font-semibold mb-4">Tambah Data</h2>
+      <form id="saranForm" class="space-y-3">
+        <input type="text" name="Nama" placeholder="Nama" required class="w-full border px-3 py-2 rounded">
+        <input type="email" name="Email" placeholder="Email" required class="w-full border px-3 py-2 rounded">
+        <textarea name="Pesan" placeholder="Pesan" required class="w-full border px-3 py-2 rounded"></textarea>
+        <div id="formLoader" class="hidden text-sm text-slate-500">⏳ Mengirim...</div>
+        <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Kirim</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycby7CE-4ykcHt-fCcQSA2ko9scte73pxxVJrtU5X0z2nisZZ8UTBdCPiRBqC--ARuycybA/exec"; 
+  let currentPage = 1;
+  const perPage = 5;
+  let allData = [];
+
+  function showOverlayLoader(){ document.getElementById("overlayLoader").style.display="flex"; }
+  function hideOverlayLoader(){ document.getElementById("overlayLoader").style.display="none"; }
+
+  async function loadData(){
+    showOverlayLoader();
+    const res = await fetch(API_URL);
+    allData = await res.json();
+    allData = allData.reverse(); // terbaru di atas
+    hideOverlayLoader();
+    renderList();
+  }
+
+  function renderList(){
+    const search = document.getElementById('search').value.toLowerCase();
+    const filtered = allData.filter(item =>
+      item.Nama.toLowerCase().includes(search) ||
+      item.Email.toLowerCase().includes(search) ||
+      item.Pesan.toLowerCase().includes(search)
+    );
+
+    const start = (currentPage - 1) * perPage;
+    const paginated = filtered.slice(start, start + perPage);
+
+    document.getElementById("listSaran").innerHTML = paginated.map(d => `
+      <div class="border rounded-lg p-3 bg-slate-50 shadow-sm">
+        <strong class="text-slate-800">${d.Nama}</strong>
+        <div class="text-sm text-slate-600">${d.Email}</div>
+        <p class="mt-1 text-slate-700">${d.Pesan}</p>
+      </div>
+    `).join("");
+
+    renderPagination(Math.ceil(filtered.length / perPage), currentPage);
+  }
+
+  function renderPagination(totalPages, current){
+    const pagination = document.getElementById("pagination");
+    let buttons = "";
+
+    if (current > 1) buttons += `<button onclick="gotoPage(${current-1})" class="px-2">« Prev</button>`;
+    for (let i = 1; i <= totalPages; i++){
+      buttons += `<button onclick="gotoPage(${i})" class="px-3 py-1 rounded ${i===current?'bg-blue-500 text-white':'bg-slate-200'}">${i}</button>`;
+    }
+    if (current < totalPages) buttons += `<button onclick="gotoPage(${current+1})" class="px-2">Next »</button>`;
+    pagination.innerHTML = buttons;
+  }
+
+  function gotoPage(p){ currentPage=p; renderList(); }
+
+  function openModal(){ document.getElementById("modalForm").style.display="flex"; }
+  function closeModal(){ document.getElementById("modalForm").style.display="none"; }
+
+  document.getElementById("saranForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+    document.getElementById("formLoader").style.display="block";
+
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      mode: "no-cors", // biar aman
+      headers: { "Content-Type": "application/json" }
+    });
+
+    document.getElementById("formLoader").style.display="none";
+    e.target.reset();
+    closeModal();
+    showToast();
+    loadData();
+  });
+
+  document.getElementById("search").addEventListener("input", renderList);
+
+  function showToast(){
+    const toast = document.getElementById("toast");
+    toast.style.display="block";
+    setTimeout(()=> toast.style.display="none", 3000);
+  }
+
+  loadData();
+</script>
+</body>
+</html>
