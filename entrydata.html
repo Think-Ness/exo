@@ -34,15 +34,15 @@
         <table class="w-full text-sm text-left border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
           <thead class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
             <tr>
-              <th class="px-4 py-2">Tanggal</th>
               <th class="px-4 py-2">Nama</th>
               <th class="px-4 py-2">Email</th>
               <th class="px-4 py-2">Pesan</th>
+              <th class="px-4 py-2">Aksi</th>
             </tr>
           </thead>
           <tbody id="dataTable" class="divide-y divide-slate-100 dark:divide-slate-700 text-slate-800 dark:text-slate-100">
             <tr>
-              <td colspan="4" class="px-4 py-4 text-center text-slate-500">Memuat data...</td>
+              <td colspan="6" class="px-4 py-4 text-center text-slate-500">Memuat data...</td>
             </tr>
           </tbody>
         </table>
@@ -78,9 +78,43 @@
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Pesan</label>
             <textarea name="Pesan" rows="3" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"></textarea>
           </div>
+
+
           <div id="formLoader" class="hidden text-sm text-slate-500">⏳ Mengirim...</div>
           <div class="flex justify-end gap-2">
             <button type="button" id="closeModal2" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-500">Batal</button>
+            <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Edit Data -->
+    <div id="modalEdit" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg w-full max-w-md p-6 relative">
+        <button id="closeEditModal" class="absolute top-2 right-2 text-slate-400 hover:text-slate-600">✖</button>
+        <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-100">Edit Data</h2>
+        <form id="editForm" class="space-y-4" method="POST">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">ID</label>
+            <input type="text" name="ID" id="editID" readonly class="mt-1 w-full border rounded-lg px-3 py-2 bg-gray-100 dark:bg-slate-600 dark:text-white cursor-not-allowed"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nama</label>
+            <input type="text" name="Nama" id="editNama" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
+            <input type="email" name="Email" id="editEmail" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Pesan</label>
+            <textarea name="Pesan" id="editPesan" rows="3" required class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"></textarea>
+          </div>
+          
+          <div id="editFormLoader" class="hidden text-sm text-slate-500">⏳ Mengirim...</div>
+          <div class="flex justify-end gap-2">
+            <button type="button" id="closeEditModal2" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-500">Batal</button>
             <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white">Simpan</button>
           </div>
         </form>
@@ -91,7 +125,7 @@
   </main>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbzzpWtBwfsAP8-PeFpp-JqHSDLdlJt6DGpWayerEBGUDzULXa8nz5flkbz-cmtaprm45w/exec"; 
+  const API_URL = "https://script.google.com/macros/s/AKfycbxjRxWmkjdTFGMvmBWx4m-kAqLd7PiS02ZgJC2BKeUfOFpocCLad98k_fvE7ufpNtbZLg/exec"; 
   let currentPage = 1;
   const perPage = 5;
   let allData = [];
@@ -111,6 +145,7 @@
   function renderList(){
     const search = document.getElementById('search').value.toLowerCase();
     const filtered = allData.filter(item =>
+      (item.ID||"").toLowerCase().includes(search) ||
       (item.Nama||"").toLowerCase().includes(search) ||
       (item.Email||"").toLowerCase().includes(search) ||
       (item.Pesan||"").toLowerCase().includes(search)
@@ -119,17 +154,40 @@
     const start = (currentPage - 1) * perPage;
     const paginated = filtered.slice(start, start + perPage);
 
-    document.getElementById("dataTable").innerHTML = paginated.map(d => `
+    document.getElementById("dataTable").innerHTML = paginated.map((d) => `
       <tr>
-        <td class="px-4 py-2">${d.Timestamp ||  ""}</td>
-        <td class="px-4 py-2">${d.Nama || ""}</td>
-        <td class="px-4 py-2">${d.Email || ""}</td>
-        <td class="px-4 py-2">${d.Pesan || ""}</td>
+        <td class="px-4 py-2">${d.Nama ||""}</td>
+        <td class="px-4 py-2">${d.Email ||""}</td>
+        <td class="px-4 py-2">${d.Pesan||""}</td>
+        <td class="px-4 py-2">
+          <div class="flex gap-2">
+            <button onclick="editData('${d.ID}')" class="w-20 px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium shadow-sm">Edit</button>
+            <button onclick="deleteData('${d.ID}')" class="w-20 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium shadow-sm">Hapus</button>
+          </div>
+        </td>
       </tr>
     `).join("");
 
     renderPagination(Math.ceil(filtered.length / perPage), currentPage);
   }
+
+  // Fungsi hapus data berdasarkan ID
+
+
+  async function deleteData(ID){
+  if(!confirm("Yakin ingin menghapus data ini?")) return;
+  showOverlayLoader();
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ action: "delete", ID }),
+    headers: { "Content-Type": "application/json" },
+    mode: "no-cors"
+  });
+  hideOverlayLoader();
+  showToast("Data berhasil dihapus");
+  loadData();
+}
+
 
   function renderPagination(totalPages, current){
     const pagination = document.getElementById("pagination");
@@ -147,6 +205,12 @@
   function openModal(){ document.getElementById("modalForm").classList.remove("hidden"); }
   function closeModal(){ document.getElementById("modalForm").classList.add("hidden"); }
 
+  // Modal Edit Data
+  function openEditModal(){ document.getElementById("modalEdit").classList.remove("hidden"); }
+  function closeEditModal(){ document.getElementById("modalEdit").classList.add("hidden"); }
+  document.getElementById("closeEditModal").addEventListener("click", closeEditModal);
+  document.getElementById("closeEditModal2").addEventListener("click", closeEditModal);
+
   document.getElementById("addBtn").addEventListener("click", openModal);
   document.getElementById("closeModal").addEventListener("click", closeModal);
   document.getElementById("closeModal2").addEventListener("click", closeModal);
@@ -155,6 +219,9 @@
   document.getElementById("entryForm").addEventListener("submit", async e=>{
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target).entries());
+    // Generate kode unik sebagai primary key
+    formData.ID = "id_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+
     document.getElementById("formLoader").classList.remove("hidden");
 
     await fetch(API_URL, {
@@ -171,15 +238,76 @@
     loadData();
   });
 
+
+//   e.preventDefault();
+//   const form = e.target;
+//   const formData = new FormData(form);
+
+//   document.getElementById("formLoader").classList.remove("hidden");
+
+//   // Upload file ke API
+//   const fileInput = document.getElementById("fileInput");
+//   if (fileInput.files.length > 0) {
+//     formData.append("file", fileInput.files[0]);
+//     await fetch(API_URL, {
+//       method: "POST",
+//       body: formData,
+//       mode: "no-cors"
+//     }).then(res => res.json())
+//       .then(data => {
+//         console.log("File uploaded:", data.fileUrl);
+//         // kamu bisa simpan URL ini ke spreadsheet juga kalau mau
+//       });
+//   }
+
+//   document.getElementById("formLoader").classList.add("hidden");
+//   form.reset();
+//   closeModal();
+//   showToast();
+//   loadData();
+// });
+
+
   document.getElementById("search").addEventListener("input", renderList);
 
-  function showToast(){
+  // Modifikasi showToast agar bisa custom pesan
+  function showToast(msg="✅ Data berhasil disimpan"){
     const toast = document.getElementById("toast");
+    toast.textContent = msg;
     toast.style.display="block";
     setTimeout(()=> toast.style.display="none", 3000);
   }
+
+  // Fungsi untuk isi dan buka modal edit
+  function editData(ID){
+    const data = allData.find(d => d.ID === ID);
+    if(!data) return;
+    document.getElementById("editID").value = data.ID || "";
+    document.getElementById("editNama").value = data.Nama || "";
+    document.getElementById("editEmail").value = data.Email || "";
+    document.getElementById("editPesan").value = data.Pesan || "";
+    openEditModal();
+  }
+
+  // Submit edit form
+  document.getElementById("editForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+    document.getElementById("editFormLoader").classList.remove("hidden");
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ ...formData, action: "edit" }),
+      headers: { "Content-Type": "application/json" },
+      mode: "no-cors"
+    });
+    document.getElementById("editFormLoader").classList.add("hidden");
+    closeEditModal();
+    showToast("Data berhasil diedit");
+    loadData();
+  });
 
   loadData();
 </script>
 </body>
 </html>
+

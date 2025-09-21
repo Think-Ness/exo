@@ -1,89 +1,107 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pemilihan Ketua</title>
   <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    // Aktifkan dark mode otomatis
+  <script>
     tailwind.config = {
-      darkMode: 'media', // otomatis mengikuti sistem
+      darkMode: 'class', // pakai class untuk dark mode
       theme: {
         extend: {
           colors: {
             primary: "#3b82f6",
-            primaryDark: "#2563eb"
-          }
-        }
-      }
+            primaryDark: "#2563eb",
+          },
+          boxShadow: {
+            card: "0 4px 12px rgba(59, 130, 246, 0.1)",
+            cardDark: "0 4px 12px rgba(37, 99, 235, 0.3)",
+          },
+        },
+      },
     };
   </script>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center p-6 transition-colors duration-300">
 
-  <h1 class="text-3xl font-extrabold mb-8 tracking-wide">Pemilihan Ketua Organisasi</h1>
+  <header class="mb-10 text-center">
+    <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+      Pemilihan Ketua Organisasi
+    </h1>
+    <p class="mt-2 text-gray-600 dark:text-gray-400">Pilih maksimal 2 kandidat</p>
+  </header>
 
-  <div id="cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
-      <h2 class="font-semibold text-lg">Kandidat 1</h2>
-      <button onclick="vote('Kandidat 1', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+  <main id="cards" class="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-4xl">
+    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-card dark:shadow-cardDark p-6 flex flex-col items-center space-y-4 transition-shadow hover:shadow-lg">
+      <img src="img/1.jpg" alt="Kandidat 1" class="w-28 h-28 rounded-full ring-2 ring-primary dark:ring-primaryDark object-cover" />
+      <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100">Kandidat 1</h2>
+      <button onclick="vote('Al UStadz Amin', this)" class="vote-btn w-full max-w-xs bg-primary hover:bg-primaryDark text-white font-medium py-2 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
         Pilih
       </button>
     </div>
-    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
-      <h2 class="font-semibold text-lg">Kandidat 2</h2>
-      <button onclick="vote('Kandidat 2', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-        Pilih
-      </button>
-    </div>
-    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
-      <h2 class="font-semibold text-lg">Kandidat 3</h2>
-      <button onclick="vote('Kandidat 3', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-        Pilih
-      </button>
-    </div>
-    <div class="card bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
-      <h2 class="font-semibold text-lg">Kandidat 4</h2>
-      <button onclick="vote('Kandidat 4', this)" class="vote-btn mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-        Pilih
-      </button>
-    </div>
-  </div>
 
-  <!-- Reset -->
-  <div class="mt-8 w-full max-w-md text-center">
-    <input id="resetKey" type="text" placeholder="Masukkan reset key"
-      class="border rounded-lg px-4 py-2 w-2/3" />
-    <button onclick="resetVotes()" class="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-card dark:shadow-cardDark p-6 flex flex-col items-center space-y-4 transition-shadow hover:shadow-lg">
+      <img src="img/1.jpg" alt="Kandidat 2" class="w-28 h-28 rounded-full ring-2 ring-primary dark:ring-primaryDark object-cover" />
+      <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100">Kandidat 2</h2>
+      <button onclick="vote('Al UStadz Dwi', this)" class="vote-btn w-full max-w-xs bg-primary hover:bg-primaryDark text-white font-medium py-2 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+        Pilih
+      </button>
+    </div>
+
+    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-card dark:shadow-cardDark p-6 flex flex-col items-center space-y-4 transition-shadow hover:shadow-lg">
+      <div class="w-28 h-28 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 text-3xl font-bold select-none">
+        3
+      </div>
+      <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100">Kandidat 3</h2>
+      <button onclick="vote('Al UStadz Sigap', this)" class="vote-btn w-full max-w-xs bg-primary hover:bg-primaryDark text-white font-medium py-2 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+        Pilih
+      </button>
+    </div>
+
+    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-card dark:shadow-cardDark p-6 flex flex-col items-center space-y-4 transition-shadow hover:shadow-lg">
+      <div class="w-28 h-28 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 text-3xl font-bold select-none">
+        4
+      </div>
+      <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100">Kandidat 4</h2>
+      <button onclick="vote('Al UStadz Raja', this)" class="vote-btn w-full max-w-xs bg-primary hover:bg-primaryDark text-white font-medium py-2 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+        Pilih
+      </button>
+    </div>
+  </main>
+
+  <section class="mt-12 w-full max-w-md text-center space-y-4">
+    <input id="resetKey" type="password" placeholder="Masukkan reset key" autocomplete="off"
+      class="w-2/3 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition" />
+    <button onclick="resetVotes()" class="ml-2 px-5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition">
       Reset
     </button>
-  </div>
+  </section>
 
   <!-- Loading Dialog -->
-  <div id="loading" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-    <div class="bg-white p-6 rounded-xl shadow-lg flex items-center space-x-3">
-      <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+  <div id="loading" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg flex items-center space-x-4">
+      <svg class="animate-spin h-7 w-7 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
       </svg>
-      <span class="text-gray-700">Menyimpan pilihan...</span>
+      <span class="text-gray-700 dark:text-gray-200 font-medium">Menyimpan pilihan...</span>
     </div>
   </div>
 
   <!-- Success/Error Dialog -->
-  <div id="messageDialog" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-    <div class="bg-white p-6 rounded-xl shadow-lg text-center w-80">
-      <h2 id="messageTitle" class="text-lg font-bold mb-2">Berhasil</h2>
-      <p id="messageText" class="text-gray-600 mb-4">Vote kamu sudah tersimpan.</p>
-      <button onclick="closeMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+  <div id="messageDialog" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center max-w-sm w-full">
+      <h2 id="messageTitle" class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100"></h2>
+      <p id="messageText" class="text-gray-700 dark:text-gray-300 mb-6"></p>
+      <button onclick="closeMessage()" class="bg-primary hover:bg-primaryDark text-white px-6 py-2 rounded-lg font-semibold transition">
         OK
       </button>
     </div>
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzidGgaynk8KQ91FsobMGrQJmK7jF8HlRO8pGvAqOtkuaMkwbGL0RVLQcqd-4aX89Xh7w/exec"; 
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyh-V0L-KQhx8AH79leEnOikOGM2YtXHwSaGzBesU0r7L9Mh42bM2gN0CJV8rTF3djQaA/exec";
     let selected = JSON.parse(localStorage.getItem("selectedVotes")) || [];
 
     window.onload = () => {
@@ -134,10 +152,9 @@
 
     function disableButton(btn, permanently) {
       btn.disabled = true;
-      btn.classList.remove("bg-blue-500", "hover:bg-blue-600");
+      btn.classList.remove("bg-primary", "hover:bg-primaryDark");
       btn.classList.add("bg-gray-400", "cursor-not-allowed");
-      if (permanently) btn.textContent = "Sudah Dipilih";
-      else btn.textContent = "Pilih";
+      btn.textContent = permanently ? "Sudah Dipilih" : "Pilih";
     }
 
     function disableAllButtons() {
@@ -147,7 +164,7 @@
     }
 
     function resetVotes() {
-      const key = document.getElementById("resetKey").value;
+      const key = document.getElementById("resetKey").value.trim();
       if (key === "RESET123") {
         localStorage.removeItem("selectedVotes");
         selected = [];
@@ -158,7 +175,7 @@
     }
 
     function generateDeviceId() {
-      return "device-" + Math.random().toString(36).substr(2, 9);
+      return "device-" + Math.random().toString(36).slice(2, 11);
     }
 
     function showLoading() {

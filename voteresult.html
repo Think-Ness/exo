@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review Hasil Voting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 transition-colors duration-300">
+  <header class="text-center mb-10">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">📊 Hasil Voting</h1>
+    <p class="text-gray-600 dark:text-gray-400">Update otomatis setiap 5 detik</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto space-y-10">
+    <!-- Tabel -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 overflow-x-auto">
+      <table class="min-w-full text-left text-gray-900 dark:text-gray-100">
+        <thead>
+          <tr class="border-b border-gray-300 dark:border-gray-600">
+            <th class="py-2 px-4">Kandidat</th>
+            <th class="py-2 px-4">Jumlah Suara</th>
+          </tr>
+        </thead>
+        <tbody id="voteTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Grafik -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+      <canvas id="voteChart"></canvas>
+    </div>
+  </main>
+
+  <script>
+    const apiURL = "https://script.google.com/macros/s/AKfycbwkgLy4c0diAjJJuOeqopMdU8UfpHjIynB7IL1qZS5XM-RuubJneE42PuLDKeyXZfo2ug/exec"; // URL Apps Script
+
+    let chart;
+    async function fetchData() {
+      const res = await fetch(apiURL);
+      const data = await res.json();
+      updateUI(data);
+    }
+
+    function updateUI(data) {
+      // Update tabel
+      const table = document.getElementById("voteTable");
+      table.innerHTML = "";
+      for (const [kandidat, count] of Object.entries(data)) {
+        table.innerHTML += `
+          <tr class="border-b border-gray-200 dark:border-gray-700">
+            <td class="py-2 px-4">${kandidat}</td>
+            <td class="py-2 px-4 font-semibold">${count}</td>
+          </tr>
+        `;
+      }
+
+      // Update chart
+      const ctx = document.getElementById("voteChart");
+      if (!chart) {
+        chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: Object.keys(data),
+            datasets: [{
+              label: "Jumlah Suara",
+              data: Object.values(data),
+              backgroundColor: ["#3b82f6", "#2563eb", "#10b981", "#f59e0b", "#ef4444"]
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      } else {
+        chart.data.labels = Object.keys(data);
+        chart.data.datasets[0].data = Object.values(data);
+        chart.update();
+      }
+    }
+
+    fetchData();
+    setInterval(fetchData, 5000); // update tiap 5 detik
+  </script>
+</body>
+</html>
