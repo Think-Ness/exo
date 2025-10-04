@@ -33,63 +33,82 @@
 
     <!-- Score Table -->
     <div class="overflow-x-auto">
-      <table class="table-auto w-full border text-center">
-        <thead class="bg-blue-100">
-          <tr>
-            <th class="border px-2 py-2">Speaker</th>
-            <th class="border px-2 py-2">Content (40)</th>
-            <th class="border px-2 py-2">Performance (40)</th>
-            <th class="border px-2 py-2">Linguistic (20)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- 3 speakers proposition -->
-          <tr>
-            <td class="border px-2 py-2">1st Proposition</td>
-            <td><input type="number" name="prop1_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop1_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop1_lang" class="w-20 border rounded p-1"></td>
-          </tr>
-          <tr>
-            <td class="border px-2 py-2">2nd Proposition</td>
-            <td><input type="number" name="prop2_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop2_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop2_lang" class="w-20 border rounded p-1"></td>
-          </tr>
-          <tr>
-            <td class="border px-2 py-2">3rd Proposition</td>
-            <td><input type="number" name="prop3_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop3_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="prop3_lang" class="w-20 border rounded p-1"></td>
-          </tr>
+<table class="table-auto w-full border text-center">
+  <thead class="bg-blue-100">
+    <tr>
+      <th class="border px-2 py-2">Speaker</th>
+      <th class="border px-2 py-2">Content</th>
+      <th class="border px-2 py-2">Performance</th>
+      <th class="border px-2 py-2">Linguistic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 3 speakers proposition -->
+    <tr>
+      <td class="border px-2 py-2">1st Proposition</td>
+      <td><input type="number" name="prop1_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop1_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop1_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <tr>
+      <td class="border px-2 py-2">2nd Proposition</td>
+      <td><input type="number" name="prop2_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop2_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop2_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <tr>
+      <td class="border px-2 py-2">3rd Proposition</td>
+      <td><input type="number" name="prop3_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop3_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop3_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <!-- summary proposition -->
+    <tr class="bg-blue-50 font-semibold">
+      <td class="border px-2 py-2">Summary Proposition</td>
+      <td><input type="number" name="prop_summary_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop_summary_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="prop_summary_lang" class="w-20 border rounded p-1"></td>
+    </tr>
 
-          <!-- 3 speakers opposition -->
-          <tr class="bg-gray-50">
-            <td class="border px-2 py-2">1st Opposition</td>
-            <td><input type="number" name="opp1_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp1_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp1_lang" class="w-20 border rounded p-1"></td>
-          </tr>
-          <tr class="bg-gray-50">
-            <td class="border px-2 py-2">2nd Opposition</td>
-            <td><input type="number" name="opp2_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp2_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp2_lang" class="w-20 border rounded p-1"></td>
-          </tr>
-          <tr class="bg-gray-50">
-            <td class="border px-2 py-2">3rd Opposition</td>
-            <td><input type="number" name="opp3_content" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp3_perf" class="w-20 border rounded p-1"></td>
-            <td><input type="number" name="opp3_lang" class="w-20 border rounded p-1"></td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 3 speakers opposition -->
+    <tr class="bg-gray-50">
+      <td class="border px-2 py-2">1st Opposition</td>
+      <td><input type="number" name="opp1_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp1_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp1_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <tr class="bg-gray-50">
+      <td class="border px-2 py-2">2nd Opposition</td>
+      <td><input type="number" name="opp2_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp2_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp2_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <tr class="bg-gray-50">
+      <td class="border px-2 py-2">3rd Opposition</td>
+      <td><input type="number" name="opp3_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp3_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp3_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+    <!-- summary opposition -->
+    <tr class="bg-gray-200 font-semibold">
+      <td class="border px-2 py-2">Summary Opposition</td>
+      <td><input type="number" name="opp_summary_content" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp_summary_perf" class="w-20 border rounded p-1"></td>
+      <td><input type="number" name="opp_summary_lang" class="w-20 border rounded p-1"></td>
+    </tr>
+  </tbody>
+</table>
+
     </div>
 
     <!-- Summary & Notes -->
     <div>
       <label class="font-semibold">Summary / Notes</label>
       <textarea name="notes" class="w-full border rounded-lg p-2" placeholder="Catatan adjudicator..."></textarea>
+    </div>
+    <div>
+      <label class="font-semibold">Nama Juri</label>
+      <input name="juri" class="w-full border rounded-lg p-2" placeholder="Nama Juri 1, Nama Juri 2"></input>
     </div>
 
     <!-- Buttons -->
@@ -111,7 +130,12 @@
   </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbz4NmyBlXbgU_vJE9wqwpMlXsWZs_IksrmeF7PkOfQeu8zn9QZo790xmUWPc621GUXc7w/exec"; // ganti dgn link Web App script
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxD5BZbvWCb5vCETYWfpMzdKL0uGY17tqQnW1Fqm92P18_Mr94TPEVEMpIuvGsrZdbpsQ/exec"; // ganti dgn link Web App script
+    
+    // const scriptURL = "https://script.google.com/macros/s/AKfycbwn-MICzgLmtyL6isVc73KVTMuzNPpyQfyc6MucEYpKygC-IPSYGAqkk6rvDfhf_AggKQ/exec"; // ganti dgn link Web App script
+
+    
+    // const scriptURL = "https://script.google.com/macros/s/AKfycbz4NmyBlXbgU_vJE9wqwpMlXsWZs_IksrmeF7PkOfQeu8zn9QZo790xmUWPc621GUXc7w/exec"; // ganti dgn link Web App script
     const form = document.getElementById("scoreForm");
     const loadingPopup = document.getElementById("loadingPopup");
 
