@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Rekap Nilai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <h1 class="text-3xl font-bold text-center mb-8">📊 Rekap Nilai Lomba</h1>
+
+  <div id="cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbysPd1gd1wqh6wztwCbIJZk7GLJj37KDI87RJ13LHvUOoa_Zgu-ys-FIyMlhNv0kbQT/exec"; // ganti dengan URL Web App kamu
+    // const API_URL = "https://script.google.com/macros/s/AKfycbyUe7zbdB0ZxFfqNNssgKONbhNuXLLEZmloxcNxupksetyHBbKRwaqh2QLErlk97EeY/exec"; // ganti dengan URL Web App kamu
+
+    async function loadData() {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      renderCards(data);
+    }
+
+    function renderCards(data) {
+      let container = document.getElementById("cards");
+      container.innerHTML = "";
+
+      data.forEach(item => {
+        let card = document.createElement("div");
+        card.className = "bg-white shadow-lg rounded-2xl p-5 border hover:shadow-xl transition";
+
+        let title = `<h2 class="text-xl font-semibold mb-3 text-gray-800">${item['Kampus']}</h2>`;
+
+        let body = "<ul class='space-y-1 text-sm text-gray-700'>";
+        for (let key in item) {
+          if (key !== "Kampus") {
+            body += `<li class="flex justify-between border-b py-1">
+              <span>${key}</span>
+              <span class="font-medium">${item[key]}</span>
+            </li>`;
+          }
+        }
+        body += "</ul>";
+
+        card.innerHTML = title + body;
+        container.appendChild(card);
+      });
+    }
+
+    loadData();
+  </script>
+</body>
+</html>

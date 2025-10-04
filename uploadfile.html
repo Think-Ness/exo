@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Upload Foto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg">
+    <h1 class="text-2xl font-bold text-center mb-4">Upload Foto</h1>
+
+    <form id="frm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Nama</label>
+        <input name="nama" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Pilih Foto</label>
+        <input type="file" name="file" accept="image/*" required class="w-full" />
+      </div>
+
+      <button type="submit" class="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow">
+        Upload
+      </button>
+    </form>
+
+    <div id="output" class="mt-4 text-center text-sm"></div>
+  </div>
+
+  <script>
+    const frm = document.getElementById('frm');
+    const out = document.getElementById('output');
+
+    frm.onsubmit = function(e) {
+      e.preventDefault();
+      out.innerHTML = "Uploading…";
+
+      const nama = this.nama.value.trim();
+      const file = this.file.files[0];
+      if(!file){ out.innerHTML = "Pilih file dulu ya 😅"; return; }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        // evt.target.result = data:<mime>;base64,.... strip prefix
+        const dataUrl = evt.target.result;
+        const base64 = dataUrl.split(',')[1];
+
+        const payload = {
+          nama: nama || 'unknown',
+          fileName: file.name,
+          mimeType: file.type || 'image/jpeg',
+          base64: base64
+        };
+
+        // panggil server-side (sama origin, jadi pakai google.script.run)
+        google.script.run.withSuccessHandler(function(resp){
+          if(resp.status === 'success'){
+            out.innerHTML = `<span class="text-green-600">✅ ${resp.message}</span><br/><a href="${resp.url}" target="_blank" class="text-blue-600 underline">Lihat file</a>`;
+            frm.reset();
+          } else {
+            out.innerHTML = `<span class="text-red-600">❌ ${resp.message}</span>`;
+          }
+        }).uploadFile(payload);
+      };
+      reader.readAsDataURL(file);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Rekap Nilai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <h1 class="text-3xl font-bold text-center mb-8">📊 Rekap Nilai Lomba</h1>
+
+  <!-- Dropdown filter kampus -->
+  <div class="flex justify-center mb-6">
+    <select id="kampusFilter" 
+            class="border rounded-lg px-4 py-2 shadow bg-white text-gray-700">
+      <option value="">Semua Kampus</option>
+    </select>
+  </div>
+
+  <div id="cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbysPd1gd1wqh6wztwCbIJZk7GLJj37KDI87RJ13LHvUOoa_Zgu-ys-FIyMlhNv0kbQT/exec"; 
+
+    let allData = [];
+
+    async function loadData() {
+      const res = await fetch(API_URL);
+      allData = await res.json();
+
+      // isi dropdown kampus unik
+      fillDropdown(allData);
+
+      // render default semua
+      renderCards(allData);
+    }
+
+    function fillDropdown(data) {
+      let kampusList = [...new Set(data.map(item => item['Kampus']))];
+      let dropdown = document.getElementById("kampusFilter");
+
+      kampusList.forEach(kampus => {
+        let opt = document.createElement("option");
+        opt.value = kampus;
+        opt.textContent = kampus;
+        dropdown.appendChild(opt);
+      });
+
+      // event listener kalau dropdown berubah
+      dropdown.addEventListener("change", (e) => {
+        let selected = e.target.value;
+        if (selected === "") {
+          renderCards(allData); // semua
+        } else {
+          let filtered = allData.filter(item => item['Kampus'] === selected);
+          renderCards(filtered);
+        }
+      });
+    }
+
+    function renderCards(data) {
+      let container = document.getElementById("cards");
+      container.innerHTML = "";
+
+      if (data.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-500 col-span-full">Tidak ada data</p>`;
+        return;
+      }
+
+      if (data.length === 1) {
+        // Center single card
+        container.className = "flex justify-center";
+        let item = data[0];
+        let card = document.createElement("div");
+        card.className = "bg-white shadow-lg rounded-2xl p-5 border hover:shadow-xl transition w-full max-w-md";
+        let title = `<h2 class="text-xl font-semibold mb-3 text-gray-800">${item['Kampus']}</h2>`;
+        let body = "<ul class='space-y-1 text-sm text-gray-700'>";
+        for (let key in item) {
+          if (key !== "Kampus") {
+            body += `<li class="flex justify-between border-b py-1">
+              <span>${key}</span>
+              <span class="font-medium">${item[key]}</span>
+            </li>`;
+          }
+        }
+        body += "</ul>";
+        card.innerHTML = title + body;
+        container.appendChild(card);
+      } else {
+        // Grid for multiple cards
+        container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+        data.forEach(item => {
+          let card = document.createElement("div");
+          card.className = "bg-white shadow-lg rounded-2xl p-5 border hover:shadow-xl transition";
+
+          let title = `<h2 class="text-xl font-semibold mb-3 text-gray-800">${item['Kampus']}</h2>`;
+
+          let body = "<ul class='space-y-1 text-sm text-gray-700'>";
+          for (let key in item) {
+            if (key !== "Kampus") {
+              body += `<li class="flex justify-between border-b py-1">
+                <span>${key}</span>
+                <span class="font-medium">${item[key]}</span>
+              </li>`;
+            }
+          }
+          body += "</ul>";
+
+          card.innerHTML = title + body;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>

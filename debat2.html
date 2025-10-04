@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debate Adjudication Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <h1 class="text-3xl font-bold text-center mb-6">
+    Debate Adjudication Sheet <br>
+    <span class="text-lg font-medium">Festival Bahasa Arab dan Inggris Pesantren Putri se-Indonesia</span>
+  </h1>
+
+  <form id="scoreForm" class="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-6">
+    <!-- isi form sama seperti sebelumnya -->
+    <div>
+      <label class="font-semibold">Proposition Team</label>
+      <input type="text" name="proposition" class="w-full border rounded-lg p-2" placeholder="Nama tim proposition" required>
+    </div>
+    <div>
+      <label class="font-semibold">Opposition Team</label>
+      <input type="text" name="opposition" class="w-full border rounded-lg p-2" placeholder="Nama tim opposition" required>
+    </div>
+    <div>
+      <label class="font-semibold">Title</label>
+      <input type="text" name="title" class="w-full border rounded-lg p-2" placeholder="Judul mosi" required>
+    </div>
+
+    <!-- tombol -->
+    <div class="flex justify-end">
+      <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow">Submit</button>
+    </div>
+  </form>
+
+  <!-- Popup loading -->
+  <div id="loadingPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center space-y-4">
+      <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a12 12 0 00-12 12h4z"></path>
+      </svg>
+      <p class="text-gray-700 font-semibold">Mengirim data...</p>
+    </div>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz4NmyBlXbgU_vJE9wqwpMlXsWZs_IksrmeF7PkOfQeu8zn9QZo790xmUWPc621GUXc7w/exec"; // ganti dengan URL Web App
+    const form = document.getElementById("scoreForm");
+    const loadingPopup = document.getElementById("loadingPopup");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      // tampilkan loading
+      loadingPopup.classList.remove("hidden");
+
+      fetch(scriptURL, { 
+          method: 'POST', 
+          body: new FormData(form),
+          mode: 'no-cors'
+      })
+      .then(() => {
+        loadingPopup.classList.add("hidden");
+        alert("✅ Data berhasil dikirim!");
+        form.reset();
+      })
+      .catch(err => {
+        loadingPopup.classList.add("hidden");
+        alert("❌ Error: " + err.message);
+      });
+    });
+  </script>
+
+</body>
+</html>
