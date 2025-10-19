@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Santri Language Violation Form | LAC</title>
+
+    <meta name="title" content="Santri Language Violation Form | LAC" />
+    <meta name="description"
+        content="LAC Violation Report — submit language violation records with student data, witnesses, and details in one simple and responsive form" />
+    <meta itemprop="image" content="icons/icon.png"  />
+    <link rel="icon" type="image/x-icon" href="icons/icon1.png" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://think-ness.github.io/lac" />
+    <meta property="og:title" content="Santri Language Violation Form | LAC" />
+    <meta property="og:description"
+        content="LAC Violation Report — submit language violation records with student data, witnesses, and details in one simple and responsive form" />
+    <meta property="og:image"  content="icons/icon1.png" />
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#007bff">
+
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8faff 0%, #eef2f8 100%);
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    /* make header/title heavier like the reference image */
+    .card-header h4 { font-family: "Poppins", sans-serif; font-weight:700; letter-spacing:0.02em; }
+    /* ensure buttons use same geometric feel */
+    .btn, .form-label { font-family: "Poppins", sans-serif; }
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
+    }
+    .card-header {
+      background: linear-gradient(90deg, #0d6efd, #6610f2);
+      color: #fff;
+      font-weight: 600;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    label {
+      font-weight: 500;
+    }
+    #qr-reader { width: 100%; }
+    .qr-controls { display:flex; gap:0.5rem; align-items:center; }
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 1.5rem !important;
+      }
+      .card-header h4 {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-4 py-md-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card">
+        <div class="card-header text-center py-3">
+          <h4 class="mb-0">📋 Santri Language Violation Report</h4>
+          <small>Language Advisory Council</small>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <form id="formViolation">
+            
+            <!-- New: Report ID field with regenerate button -->
+            <!-- hidden short report id -->
+            <input type="hidden" id="reportId" />
+
+            <!-- REPLACE select for registration with simple input + QR scan -->
+            <div class="mb-3">
+              <label for="regNo" class="form-label">Registration Number</label>
+              <div class="qr-controls">
+                <input type="text" id="regNo" class="form-control" placeholder="Scan QR or paste data" required />
+                <button type="button" id="btnScan" class="btn btn-outline-primary">Scan QR</button>
+              </div>
+              <small class="text-muted d-block mt-1">QR format: regNo|name|class|dorm/rayon|region</small>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="fullName" class="form-control" readonly />
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Class</label>
+                <input type="text" id="class" class="form-control" readonly />
+              </div>
+              <div class="col-md-3 mb-3 d-none">
+                <label class="form-label">Dormitory</label>
+                <input type="text" id="dorm" class="form-control" readonly />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Region</label>
+              <input type="text" id="region" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Violation Description</label>
+              <textarea id="violation" class="form-control" rows="3" placeholder="Describe the language violation..." required></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Witness Name</label>
+              <input type="text" id="witness" class="form-control" placeholder="Enter witness name" required />
+            </div>
+
+            <!-- QR reader container (hidden by default) -->
+            <div id="qrModal" style="display:none; margin-top:1rem;">
+              <div id="qr-reader"></div>
+              <div class="mt-2 d-flex gap-2">
+                <button type="button" id="stopScan" class="btn btn-danger btn-sm">Stop</button>
+                <button type="button" id="pasteBtn" class="btn btn-secondary btn-sm">Paste QR Text</button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary w-100 px-5 py-2 ">
+                Submit Report
+              </button>
+
+            </div>
+            <div class="text-center">
+
+              <button id="installBtn" class="btn btn-outline-primary px-5 py-2 w-100 mt-3" style="display:none;">
+                <i class="bi bi-download"></i> Install App
+              </button>
+            </div>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QR library -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+
+<script>
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', async () => {
+    installBtn.style.display = 'none';
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('App installed 🎉');
+    }
+    deferredPrompt = null;
+  });
+</script>
+
+
+<!-- JS -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('Service Worker registered ✅'));
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+  // Database URL tetap untuk submit saja
+  const API_URL = "https://script.google.com/macros/s/AKfycbx9DC2Hhr3X-zggxK8Ar_edDnURGToJ2-Cj2RlaAhIEInrVTng1Y9VYL9SPDgUASiVB/exec";
+
+  $(document).ready(function() {
+    // generate unique id (unchanged)
+    function generateUniqueId() {
+      const prefix = 'L';
+      const tsPart = Date.now().toString(36).slice(-3);
+      const randPart = Math.random().toString(36).slice(2, 5);
+      return (prefix + tsPart + randPart).toUpperCase();
+    }
+    $('#reportId').val(generateUniqueId());
+
+    // QR scanning handling
+    const qrModal = $('#qrModal');
+    const qrReaderId = "qr-reader";
+    let html5QrCode = null;
+
+    function applyQrData(text) {
+      if (!text) return;
+      const parts = text.split('|').map(p => p.trim());
+      // Expected order: regNo | name | class | dorm/rayon | region
+      $('#regNo').val(parts[0] || '');
+      $('#fullName').val(parts[1] || '');
+      $('#class').val(parts[2] || '');
+      $('#dorm').val(parts[3] || '');
+      $('#region').val(parts[4] || '');
+    }
+
+    $('#btnScan').on('click', async function() {
+      // show reader
+      qrModal.show();
+      if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode(qrReaderId);
+      }
+      try {
+        const devices = await Html5Qrcode.getCameras();
+        const cameraId = devices && devices.length ? devices[0].id : null;
+        if (!cameraId) {
+          Swal.fire('Camera not found', 'No camera devices detected.', 'error');
+          return;
+        }
+        await html5QrCode.start(
+          cameraId,
+          { fps: 10, qrbox: 250 },
+          (decodedText, decodedResult) => {
+            // on success
+            applyQrData(decodedText);
+            Swal.fire({ icon: 'success', title: 'QR scanned', text: decodedText, timer: 1500, showConfirmButton:false });
+            // stop scanner after successful read
+            html5QrCode.stop().then(() => {
+              qrModal.hide();
+            }).catch(()=>{ qrModal.hide(); });
+          },
+          (errorMessage) => {
+            // noop for scan failure
+          }
+        );
+      } catch (err) {
+        Swal.fire('Scan error', String(err), 'error');
+      }
+    });
+
+    $('#stopScan').on('click', function() {
+      if (html5QrCode) {
+        html5QrCode.stop().then(()=> qrModal.hide()).catch(()=> qrModal.hide());
+      } else {
+        qrModal.hide();
+      }
+    });
+
+    $('#pasteBtn').on('click', function() {
+      const txt = prompt('Paste QR text (regNo|name|class|dorm|region):');
+      if (txt) applyQrData(txt);
+    });
+
+    // Also allow manual pasting into regNo; if user pastes full QR string, try parse
+    $('#regNo').on('input', function() {
+      const val = $(this).val();
+      if (val.includes('|')) {
+        applyQrData(val);
+      }
+    });
+
+    // Submit form (uses API only for submit)
+    $('#formViolation').on('submit', function(e) {
+      e.preventDefault();
+
+      const data = {
+        id: $('#reportId').val(),
+        regNo: $('#regNo').val(),
+        name: $('#fullName').val(),
+        class: $('#class').val(),
+        dorm: $('#dorm').val(),
+        region: $('#region').val(),
+        violation: $('#violation').val(),
+        witness: $('#witness').val(),
+      };
+
+      if (!data.regNo) {
+        Swal.fire('Oops!', 'Please scan or enter the registration number first.', 'warning');
+        return;
+      }
+
+      Swal.fire({
+        title: 'Submitting...',
+        text: 'Please wait while we save your report.',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); },
+      });
+
+      fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      .then(res => res.text())
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Report Submitted!',
+          text: 'The violation has been recorded successfully.',
+          confirmButtonColor: '#0d6efd',
+        });
+        $('#formViolation')[0].reset();
+        // regenerate hidden id after successful submit
+        $('#reportId').val(generateUniqueId());
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Failed',
+          text: 'Please try again later.',
+        });
+      });
+    });
+
+    // ...other existing code removed (select2 init, fetch data)...
+  });
+</script>
+</body>
+</html>

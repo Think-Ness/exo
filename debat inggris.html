@@ -1,80 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Debate Adjudication Sheet</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 min-h-screen p-6">
 
   <h1 class="text-3xl font-bold text-center mb-6">
-  English Debate Assessment Sheet<br>
+    English Debate Assessment Sheet<br>
     <span class="text-lg font-medium">Gontor Language Championship 2025</span>
 
   </h1>
 
   <form id="scoreForm" class="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-6">
-    
+
     <!-- Team Info -->
     <div class="grid grid-cols-2 gap-4">
       <div>
         <label class="font-semibold">Proposition Team</label>
         <select name="proposition" class="border rounded p-2 w-full">
-  <option value="">-- Pilih tim --</option>
-  <option value="PMDG Kampus 1">PMDG Kampus 1</option>
-  <option value="PMDG Kampus 2">PMDG Kampus 2</option>
-  <option value="PMDG Kampus 3">PMDG Kampus 3</option>
-  <option value="PMDG Kampus 4">PMDG Kampus 4</option>
-  <option value="PMDG Kampus 5">PMDG Kampus 5</option>
-  <option value="PMDG Kampus 6">PMDG Kampus 6</option>
-  <option value="PMDG Kampus 7">PMDG Kampus 7</option>
-  <option value="PP Al Amien Prenduan">PP Al Amien Prenduan</option>
-  <option value="PP Al Ishlah, Jenggawah">PP Al Ishlah, Jenggawah</option>
-  <option value="PP Al-Umm, Malang">PP Al-Umm, Malang</option>
-  <option value="PP Baitul Arqom">PP Baitul Arqom</option>
-  <option value="PP Daar El-Qolam">PP Daar El-Qolam</option>
-  <option value="PP Daarul 'Uluum Lido">PP Daarul 'Uluum Lido</option>
-  <option value="PP Darel Azhar">PP Darel Azhar</option>
-  <option value="PP Darul Amanah">PP Darul Amanah</option>
-  <option value="PP Darul Hijrah, Kalsel, Martapura">PP Darul Hijrah, Kalsel, Martapura</option>
-  <option value="PP Darussalam Rajapolah, Tasikmalaya">PP Darussalam Rajapolah, Tasikmalaya</option>
-  <option value="PP Darussalam Sindangsari, Garut">PP Darussalam Sindangsari, Garut</option>
-  <option value="PP Nurul Hakim">PP Nurul Hakim</option>
-  <option value="PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya">PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya</option>
-  <option value="PP Syahida">PP Syahida</option>
-  <option value="PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah">PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah</option>
-  <option value="PP Tazakka">PP Tazakka</option>
-  <option value="PP Walisongo, Ngabar">PP Walisongo, Ngabar</option>
+          <option value="">-- Pilih tim --</option>
+          <option value="PMDG Kampus 1">PMDG Kampus 1</option>
+          <option value="PMDG Kampus 2">PMDG Kampus 2</option>
+          <option value="PMDG Kampus 3">PMDG Kampus 3</option>
+          <option value="PMDG Kampus 4">PMDG Kampus 4</option>
+          <option value="PMDG Kampus 5">PMDG Kampus 5</option>
+          <option value="PMDG Kampus 6">PMDG Kampus 6</option>
+          <option value="PMDG Kampus 7">PMDG Kampus 7</option>
+          <option value="PP Al Amien Prenduan">PP Al Amien Prenduan</option>
+          <option value="PP Al Ishlah, Jenggawah">PP Al Ishlah, Jenggawah</option>
+          <option value="PP Al-Umm, Malang">PP Al-Umm, Malang</option>
+          <option value="PP Baitul Arqom">PP Baitul Arqom</option>
+          <option value="PP Daar El-Qolam">PP Daar El-Qolam</option>
+          <option value="PP Daarul 'Uluum Lido">PP Daarul 'Uluum Lido</option>
+          <option value="PP Darel Azhar">PP Darel Azhar</option>
+          <option value="PP Darul Amanah">PP Darul Amanah</option>
+          <option value="PP Darul Hijrah, Kalsel, Martapura">PP Darul Hijrah, Kalsel, Martapura</option>
+          <option value="PP Darussalam Rajapolah, Tasikmalaya">PP Darussalam Rajapolah, Tasikmalaya</option>
+          <option value="PP Darussalam Sindangsari, Garut">PP Darussalam Sindangsari, Garut</option>
+          <option value="PP Nurul Hakim">PP Nurul Hakim</option>
+          <option value="PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya">PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya</option>
+          <option value="PP Syahida">PP Syahida</option>
+          <option value="PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah">PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah</option>
+          <option value="PP Tazakka">PP Tazakka</option>
+          <option value="PP Walisongo, Ngabar">PP Walisongo, Ngabar</option>
         </select>
       </div>
       <div>
         <label class="font-semibold">Opposition Team</label>
         <select name="opposition" class="border rounded p-2 w-full">
-  <option value="">-- Pilih tim --</option>
-  <option value="PMDG Kampus 1">PMDG Kampus 1</option>
-  <option value="PMDG Kampus 2">PMDG Kampus 2</option>
-  <option value="PMDG Kampus 3">PMDG Kampus 3</option>
-  <option value="PMDG Kampus 4">PMDG Kampus 4</option>
-  <option value="PMDG Kampus 5">PMDG Kampus 5</option>
-  <option value="PMDG Kampus 6">PMDG Kampus 6</option>
-  <option value="PMDG Kampus 7">PMDG Kampus 7</option>
-  <option value="PP Al Amien Prenduan">PP Al Amien Prenduan</option>
-  <option value="PP Al Ishlah, Jenggawah">PP Al Ishlah, Jenggawah</option>
-  <option value="PP Al-Umm, Malang">PP Al-Umm, Malang</option>
-  <option value="PP Baitul Arqom">PP Baitul Arqom</option>
-  <option value="PP Daar El-Qolam">PP Daar El-Qolam</option>
-  <option value="PP Daarul 'Uluum Lido">PP Daarul 'Uluum Lido</option>
-  <option value="PP Darel Azhar">PP Darel Azhar</option>
-  <option value="PP Darul Amanah">PP Darul Amanah</option>
-  <option value="PP Darul Hijrah, Kalsel, Martapura">PP Darul Hijrah, Kalsel, Martapura</option>
-  <option value="PP Darussalam Rajapolah, Tasikmalaya">PP Darussalam Rajapolah, Tasikmalaya</option>
-  <option value="PP Darussalam Sindangsari, Garut">PP Darussalam Sindangsari, Garut</option>
-  <option value="PP Nurul Hakim">PP Nurul Hakim</option>
-  <option value="PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya">PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya</option>
-  <option value="PP Syahida">PP Syahida</option>
-  <option value="PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah">PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah</option>
-  <option value="PP Tazakka">PP Tazakka</option>
-  <option value="PP Walisongo, Ngabar">PP Walisongo, Ngabar</option>
+          <option value="">-- Pilih tim --</option>
+          <option value="PMDG Kampus 1">PMDG Kampus 1</option>
+          <option value="PMDG Kampus 2">PMDG Kampus 2</option>
+          <option value="PMDG Kampus 3">PMDG Kampus 3</option>
+          <option value="PMDG Kampus 4">PMDG Kampus 4</option>
+          <option value="PMDG Kampus 5">PMDG Kampus 5</option>
+          <option value="PMDG Kampus 6">PMDG Kampus 6</option>
+          <option value="PMDG Kampus 7">PMDG Kampus 7</option>
+          <option value="PP Al Amien Prenduan">PP Al Amien Prenduan</option>
+          <option value="PP Al Ishlah, Jenggawah">PP Al Ishlah, Jenggawah</option>
+          <option value="PP Al-Umm, Malang">PP Al-Umm, Malang</option>
+          <option value="PP Baitul Arqom">PP Baitul Arqom</option>
+          <option value="PP Daar El-Qolam">PP Daar El-Qolam</option>
+          <option value="PP Daarul 'Uluum Lido">PP Daarul 'Uluum Lido</option>
+          <option value="PP Darel Azhar">PP Darel Azhar</option>
+          <option value="PP Darul Amanah">PP Darul Amanah</option>
+          <option value="PP Darul Hijrah, Kalsel, Martapura">PP Darul Hijrah, Kalsel, Martapura</option>
+          <option value="PP Darussalam Rajapolah, Tasikmalaya">PP Darussalam Rajapolah, Tasikmalaya</option>
+          <option value="PP Darussalam Sindangsari, Garut">PP Darussalam Sindangsari, Garut</option>
+          <option value="PP Nurul Hakim">PP Nurul Hakim</option>
+          <option value="PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya">PP Riyadlul 'Ulum Wadda'wah, Tasikmalaya</option>
+          <option value="PP Syahida">PP Syahida</option>
+          <option value="PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah">PP Tarbiyah Islamiyah Ar-Raudlatul Hasanah</option>
+          <option value="PP Tazakka">PP Tazakka</option>
+          <option value="PP Walisongo, Ngabar">PP Walisongo, Ngabar</option>
         </select>
       </div>
     </div>
@@ -86,71 +88,71 @@
 
     <!-- Score Table -->
     <div class="overflow-x-auto">
-<table class="table-auto w-full border text-center">
-  <thead class="bg-blue-100">
-    <tr>
-      <th class="border px-2 py-2">Speaker</th>
-      <th class="border px-2 py-2">Content</th>
-      <th class="border px-2 py-2">Performance</th>
-      <th class="border px-2 py-2">Linguistic</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- 3 speakers proposition -->
-    <tr>
-      <td class="border px-2 py-2">1st Proposition</td>
-      <td><input type="number" name="prop1_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop1_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop1_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <tr>
-      <td class="border px-2 py-2">2nd Proposition</td>
-      <td><input type="number" name="prop2_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop2_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop2_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <tr>
-      <td class="border px-2 py-2">3rd Proposition</td>
-      <td><input type="number" name="prop3_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop3_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop3_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <!-- summary proposition -->
-    <tr class="bg-blue-50 font-semibold">
-      <td class="border px-2 py-2">Summary Proposition</td>
-      <td><input type="number" name="prop_summary_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop_summary_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="prop_summary_lang" class="w-20 border rounded p-1"></td>
-    </tr>
+      <table class="table-auto w-full border text-center">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="border px-2 py-2">Speaker</th>
+            <th class="border px-2 py-2">Content</th>
+            <th class="border px-2 py-2">Performance</th>
+            <th class="border px-2 py-2">Linguistic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 3 speakers proposition -->
+          <tr>
+            <td class="border px-2 py-2">1st Proposition</td>
+            <td><input type="number" name="prop1_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop1_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop1_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <tr>
+            <td class="border px-2 py-2">2nd Proposition</td>
+            <td><input type="number" name="prop2_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop2_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop2_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <tr>
+            <td class="border px-2 py-2">3rd Proposition</td>
+            <td><input type="number" name="prop3_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop3_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop3_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <!-- summary proposition -->
+          <tr class="bg-blue-50 font-semibold">
+            <td class="border px-2 py-2">Summary Proposition</td>
+            <td><input type="number" name="prop_summary_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop_summary_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="prop_summary_lang" class="w-20 border rounded p-1"></td>
+          </tr>
 
-    <!-- 3 speakers opposition -->
-    <tr class="bg-gray-50">
-      <td class="border px-2 py-2">1st Opposition</td>
-      <td><input type="number" name="opp1_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp1_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp1_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <tr class="bg-gray-50">
-      <td class="border px-2 py-2">2nd Opposition</td>
-      <td><input type="number" name="opp2_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp2_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp2_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <tr class="bg-gray-50">
-      <td class="border px-2 py-2">3rd Opposition</td>
-      <td><input type="number" name="opp3_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp3_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp3_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-    <!-- summary opposition -->
-    <tr class="bg-gray-200 font-semibold">
-      <td class="border px-2 py-2">Summary Opposition</td>
-      <td><input type="number" name="opp_summary_content" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp_summary_perf" class="w-20 border rounded p-1"></td>
-      <td><input type="number" name="opp_summary_lang" class="w-20 border rounded p-1"></td>
-    </tr>
-  </tbody>
-</table>
+          <!-- 3 speakers opposition -->
+          <tr class="bg-gray-50">
+            <td class="border px-2 py-2">1st Opposition</td>
+            <td><input type="number" name="opp1_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp1_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp1_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border px-2 py-2">2nd Opposition</td>
+            <td><input type="number" name="opp2_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp2_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp2_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border px-2 py-2">3rd Opposition</td>
+            <td><input type="number" name="opp3_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp3_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp3_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+          <!-- summary opposition -->
+          <tr class="bg-gray-200 font-semibold">
+            <td class="border px-2 py-2">Summary Opposition</td>
+            <td><input type="number" name="opp_summary_content" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp_summary_perf" class="w-20 border rounded p-1"></td>
+            <td><input type="number" name="opp_summary_lang" class="w-20 border rounded p-1"></td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
 
@@ -170,59 +172,61 @@
       <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg shadow">Submit</button>
     </div>
 
-      <!-- Popup loading -->
-  <div id="loadingPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center space-y-4">
-      <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a12 12 0 00-12 12h4z"></path>
-      </svg>
-      <p class="text-gray-700 font-semibold">Mengirim data...</p>
+    <!-- Popup loading -->
+    <div id="loadingPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center space-y-4">
+        <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a12 12 0 00-12 12h4z"></path>
+        </svg>
+        <p class="text-gray-700 font-semibold">Mengirim data...</p>
+      </div>
     </div>
-  </div>
   </form>
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbxD5BZbvWCb5vCETYWfpMzdKL0uGY17tqQnW1Fqm92P18_Mr94TPEVEMpIuvGsrZdbpsQ/exec"; // ganti dgn link Web App script
-    
+
     // const scriptURL = "https://script.google.com/macros/s/AKfycbwn-MICzgLmtyL6isVc73KVTMuzNPpyQfyc6MucEYpKygC-IPSYGAqkk6rvDfhf_AggKQ/exec"; // ganti dgn link Web App script
 
-    
+
     // const scriptURL = "https://script.google.com/macros/s/AKfycbz4NmyBlXbgU_vJE9wqwpMlXsWZs_IksrmeF7PkOfQeu8zn9QZo790xmUWPc621GUXc7w/exec"; // ganti dgn link Web App script
     const form = document.getElementById("scoreForm");
     const loadingPopup = document.getElementById("loadingPopup");
 
-// form.addEventListener("submit", e => {
-//   e.preventDefault();
-//   fetch(scriptURL, { 
-//       method: 'POST', 
-//       body: new FormData(form),
-//       mode: 'no-cors'
-//   })
-//   .then(() => alert("✅ Data terkirim"))
-//   .catch(err => alert("❌ Error: " + err));
-// });
+    // form.addEventListener("submit", e => {
+    //   e.preventDefault();
+    //   fetch(scriptURL, { 
+    //       method: 'POST', 
+    //       body: new FormData(form),
+    //       mode: 'no-cors'
+    //   })
+    //   .then(() => alert("✅ Data terkirim"))
+    //   .catch(err => alert("❌ Error: " + err));
+    // });
 
     form.addEventListener("submit", e => {
       e.preventDefault();
       // tampilkan loading
       loadingPopup.classList.remove("hidden");
 
-      fetch(scriptURL, { 
-          method: 'POST', 
-          body: new FormData(form),
-          mode: 'no-cors'
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new FormData(form),
+        mode: 'no-cors'
       })
-      .then(() => {
-        loadingPopup.classList.add("hidden");
-        alert("✅ Data berhasil dikirim!");
-        form.reset();
-      })
-      .catch(err => {
-        loadingPopup.classList.add("hidden");
-        alert("❌ Error: " + err.message);
-      });
+        .then(() => {
+          loadingPopup.classList.add("hidden");
+          alert("✅ Data berhasil dikirim!");
+          form.reset();
+        })
+        .catch(err => {
+          loadingPopup.classList.add("hidden");
+          alert("❌ Error: " + err.message);
+        });
     });
   </script>
 </body>
+
 </html>
