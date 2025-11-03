@@ -21,11 +21,11 @@
         <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Sudah Vote</div>
       </div>
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center">
-        <div class="text-3xl font-bold text-orange-600 dark:text-orange-400" id="totalNotVoted">96</div>
+        <div class="text-3xl font-bold text-orange-600 dark:text-orange-400" id="totalNotVoted">91</div>
         <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Belum Vote</div>
       </div>
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center">
-        <div class="text-3xl font-bold text-green-600 dark:text-green-400">96</div>
+        <div class="text-3xl font-bold text-green-600 dark:text-green-400">91</div>
         <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Anggota</div>
       </div>
     </div>
@@ -88,14 +88,14 @@
       <!-- Grafik -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
         <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Grafik Perolehan Suara</h2>
-        <canvas id="voteChart"></canvas>
+        <canvas class="h-100" id="voteChart"></canvas>
       </div>
     </div>
 
     <!-- Tombol Tampilkan Pemenang -->
     <div class="text-center">
       <button onclick="showWinner()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
-        🏆 Tampilkan Jendral Terpilih
+        🏆 Tampilkan Calon Jendral Terpilih
       </button>
     </div>
 
@@ -133,7 +133,7 @@
       <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full" style="animation: modalFadeIn 0.5s ease-out;">
         <div class="text-center">
           <div class="text-6xl mb-4">🎉</div>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Jendral Terpilih!</h2>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Calon Jendral Terpilih!</h2>
           <img id="winnerPhoto" src="" alt="Pemenang" class="w-40 h-40 rounded-full object-cover mx-auto mb-4 border-4 border-green-500 shadow-xl">
           <div class="text-3xl font-bold text-green-600 dark:text-green-400 my-4" id="winnerName">-</div>
           <div class="text-gray-600 dark:text-gray-400 mb-2">dengan</div>
@@ -180,7 +180,7 @@
 
   <script>
     const apiURL = "https://script.google.com/macros/s/AKfycbxtK8zBRET_7aE-BPr0B4jhmkCpUZ6zFKo-ZEPViaJJH8zVv4DQTOCJ51XIXIizcv77TA/exec";
-    const TOTAL_MEMBERS = 96;
+    const TOTAL_MEMBERS = 91;
 
     // Daftar kandidat dengan foto
     const candidates = {
