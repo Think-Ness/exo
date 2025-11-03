@@ -13,79 +13,343 @@
     <p class="text-gray-600 dark:text-gray-400">Update otomatis setiap 5 detik</p>
   </header>
 
-  <main class="max-w-4xl mx-auto space-y-10">
-    <!-- Tabel -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 overflow-x-auto">
-      <table class="min-w-full text-left text-gray-900 dark:text-gray-100">
-        <thead>
-          <tr class="border-b border-gray-300 dark:border-gray-600">
-            <th class="py-2 px-4">Kandidat</th>
-            <th class="py-2 px-4">Jumlah Suara</th>
-          </tr>
-        </thead>
-        <tbody id="voteTable"></tbody>
-      </table>
+  <main class="max-w-6xl mx-auto space-y-10">
+    <!-- Statistik Ringkas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center">
+        <div class="text-3xl font-bold text-blue-600 dark:text-blue-400" id="totalVoted">0</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Sudah Vote</div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center">
+        <div class="text-3xl font-bold text-orange-600 dark:text-orange-400" id="totalNotVoted">96</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Belum Vote</div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center">
+        <div class="text-3xl font-bold text-green-600 dark:text-green-400">96</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Anggota</div>
+      </div>
     </div>
 
-    <!-- Grafik -->
+    <!-- Progress Bar -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-      <canvas id="voteChart"></canvas>
+      <div class="flex justify-between mb-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Partisipasi</span>
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300" id="participationPercent">0%</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
+        <div id="participationBar" class="bg-blue-600 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Grid Layout: Kandidat Cards + Chart -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Kandidat Cards dengan Foto Besar -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Kandidat</h2>
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+            <img src="img/1.png" alt="Pahmi Idris" class="w-20 h-20 rounded-full object-cover border-4 border-blue-500 shadow-lg">
+            <div class="flex-1">
+              <div class="font-bold text-lg text-gray-900 dark:text-gray-100">Pahmi Idris</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Kandidat 1</div>
+            </div>
+            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400" data-candidate="Pahmi Idris">0</div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+            <img src="img/2.png" alt="Ahmad Nur Fajar Dwi Prakosa" class="w-20 h-20 rounded-full object-cover border-4 border-green-500 shadow-lg">
+            <div class="flex-1">
+              <div class="font-bold text-lg text-gray-900 dark:text-gray-100">Ahmad Nur Fajar Dwi Prakosa</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Kandidat 2</div>
+            </div>
+            <div class="text-3xl font-bold text-green-600 dark:text-green-400" data-candidate="Ahmad Nur Fajar Dwi Prakosa">0</div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+            <img src="img/3.png" alt="Fairuz Yudha Alfaridzi" class="w-20 h-20 rounded-full object-cover border-4 border-orange-500 shadow-lg">
+            <div class="flex-1">
+              <div class="font-bold text-lg text-gray-900 dark:text-gray-100">Fairuz Yudha Alfaridzi</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Kandidat 3</div>
+            </div>
+            <div class="text-3xl font-bold text-orange-600 dark:text-orange-400" data-candidate="Kandidat Fairuz Yudha Alfaridzi">0</div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+            <img src="img/4.png" alt="Sulthon Akmal Nurfatihah" class="w-20 h-20 rounded-full object-cover border-4 border-red-500 shadow-lg">
+            <div class="flex-1">
+              <div class="font-bold text-lg text-gray-900 dark:text-gray-100">Sulthon Akmal Nurfatihah</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Kandidat 4</div>
+            </div>
+            <div class="text-3xl font-bold text-red-600 dark:text-red-400" data-candidate="Sulthon Akmal Nurfatihah">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grafik -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Grafik Perolehan Suara</h2>
+        <canvas id="voteChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Tombol Tampilkan Pemenang -->
+    <div class="text-center">
+      <button onclick="showWinner()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+        🏆 Tampilkan Jendral Terpilih
+      </button>
+    </div>
+
+    <!-- Galeri Kandidat (Opsional - bisa dihapus jika tidak perlu) -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">Galeri Kandidat</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="text-center">
+          <img src="img/1.png" alt="Pahmi Idris" class="w-full aspect-square rounded-lg object-cover mb-2 border-4 border-blue-500 shadow-lg hover:scale-105 transition-transform">
+          <div class="font-semibold text-gray-900 dark:text-gray-100">Pahmi Idris</div>
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1" data-candidate-gallery="Pahmi Idris">0</div>
+        </div>
+        <div class="text-center">
+          <img src="img/2.png" alt="Ahmad Nur Fajar Dwi Prakosa" class="w-full aspect-square rounded-lg object-cover mb-2 border-4 border-green-500 shadow-lg hover:scale-105 transition-transform">
+          <div class="font-semibold text-gray-900 dark:text-gray-100">Ahmad Nur Fajar</div>
+          <div class="text-2xl font-bold text-green-600 dark:text-green-400 mt-1" data-candidate-gallery="Ahmad Nur Fajar Dwi Prakosa">0</div>
+        </div>
+        <div class="text-center">
+          <img src="img/3.png" alt="Fairuz Yudha Alfaridzi" class="w-full aspect-square rounded-lg object-cover mb-2 border-4 border-orange-500 shadow-lg hover:scale-105 transition-transform">
+          <div class="font-semibold text-gray-900 dark:text-gray-100">Fairuz Yudha</div>
+          <div class="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1" data-candidate-gallery="Kandidat Fairuz Yudha Alfaridzi">0</div>
+        </div>
+        <div class="text-center">
+          <img src="img/4.png" alt="Sulthon Akmal Nurfatihah" class="w-full aspect-square rounded-lg object-cover mb-2 border-4 border-red-500 shadow-lg hover:scale-105 transition-transform">
+          <div class="font-semibold text-gray-900 dark:text-gray-100">Sulthon Akmal</div>
+          <div class="text-2xl font-bold text-red-600 dark:text-red-400 mt-1" data-candidate-gallery="Sulthon Akmal Nurfatihah">0</div>
+        </div>
+      </div>
     </div>
   </main>
 
+  <!-- Modal Pemenang -->
+  <div id="winnerModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 1000; padding: 20px;">
+    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full" style="animation: modalFadeIn 0.5s ease-out;">
+        <div class="text-center">
+          <div class="text-6xl mb-4">🎉</div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Jendral Terpilih!</h2>
+          <img id="winnerPhoto" src="" alt="Pemenang" class="w-40 h-40 rounded-full object-cover mx-auto mb-4 border-4 border-green-500 shadow-xl">
+          <div class="text-3xl font-bold text-green-600 dark:text-green-400 my-4" id="winnerName">-</div>
+          <div class="text-gray-600 dark:text-gray-400 mb-2">dengan</div>
+          <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6" id="winnerVotes">0 suara</div>
+          <button onclick="closeModal()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 999;
+    }
+  </style>
+
   <script>
-    const apiURL = "https://script.google.com/macros/s/AKfycbwkgLy4c0diAjJJuOeqopMdU8UfpHjIynB7IL1qZS5XM-RuubJneE42PuLDKeyXZfo2ug/exec"; // URL Apps Script
+    const apiURL = "https://script.google.com/macros/s/AKfycbxtK8zBRET_7aE-BPr0B4jhmkCpUZ6zFKo-ZEPViaJJH8zVv4DQTOCJ51XIXIizcv77TA/exec";
+    const TOTAL_MEMBERS = 96;
+
+    // Daftar kandidat dengan foto
+    const candidates = {
+      "Pahmi Idris": {
+        name: "Pahmi Idris",
+        photo: "img/1.png"
+      },
+      "Ahmad Nur Fajar Dwi Prakosa": {
+        name: "Ahmad Nur Fajar Dwi Prakosa", 
+        photo: "img/2.png"
+      },
+      "Kandidat Fairuz Yudha Alfaridzi": {
+        name: "Fairuz Yudha Alfaridzi",
+        photo: "img/3.png"
+      },
+      "Sulthon Akmal Nurfatihah": {
+        name: "Sulthon Akmal Nurfatihah",
+        photo: "img/4.png"
+      }
+    };
 
     let chart;
+    let currentData = {};
+
     async function fetchData() {
-      const res = await fetch(apiURL);
-      const data = await res.json();
-      updateUI(data);
+      try {
+        const res = await fetch(apiURL);
+        const data = await res.json();
+        currentData = data;
+        updateUI(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
 
     function updateUI(data) {
-      // Update tabel
-      const table = document.getElementById("voteTable");
-      table.innerHTML = "";
-      for (const [kandidat, count] of Object.entries(data)) {
-        table.innerHTML += `
-          <tr class="border-b border-gray-200 dark:border-gray-700">
-            <td class="py-2 px-4">${kandidat}</td>
-            <td class="py-2 px-4 font-semibold">${count}</td>
-          </tr>
-        `;
-      }
+      // Hitung total suara
+      const totalVotes = Object.values(data).reduce((sum, count) => sum + count, 0);
+      const notVoted = TOTAL_MEMBERS - totalVotes;
+      const participationPercent = ((totalVotes / TOTAL_MEMBERS) * 100).toFixed(1);
+
+      // Update statistik
+      document.getElementById("totalVoted").textContent = totalVotes;
+      document.getElementById("totalNotVoted").textContent = notVoted;
+      document.getElementById("participationPercent").textContent = participationPercent + "%";
+      document.getElementById("participationBar").style.width = participationPercent + "%";
+
+      // Update jumlah suara di kandidat cards
+      const voteCells = document.querySelectorAll('[data-candidate]');
+      voteCells.forEach(cell => {
+        const candidateName = cell.getAttribute('data-candidate');
+        cell.textContent = data[candidateName] || 0;
+      });
+
+      // Update jumlah suara di galeri
+      const galleryCells = document.querySelectorAll('[data-candidate-gallery]');
+      galleryCells.forEach(cell => {
+        const candidateName = cell.getAttribute('data-candidate-gallery');
+        cell.textContent = data[candidateName] || 0;
+      });
 
       // Update chart
       const ctx = document.getElementById("voteChart");
+      const labels = Object.keys(candidates).map(key => candidates[key].name.split(' ')[0]); // Nama pendek untuk chart
+      const values = Object.keys(candidates).map(key => data[key] || 0);
+
       if (!chart) {
         chart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: Object.keys(data),
+            labels: labels,
             datasets: [{
               label: "Jumlah Suara",
-              data: Object.values(data),
-              backgroundColor: ["#3b82f6", "#2563eb", "#10b981", "#f59e0b", "#ef4444"]
+              data: values,
+              backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"],
+              borderWidth: 2,
+              borderColor: ["#1e40af", "#047857", "#d97706", "#b91c1c"]
             }]
           },
           options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            maintainAspectRatio: true,
+            plugins: { 
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleFont: { size: 16 },
+                bodyFont: { size: 14 },
+                padding: 12
+              }
+            },
             scales: {
-              y: { beginAtZero: true }
+              y: { 
+                beginAtZero: true,
+                ticks: {
+                  font: { size: 14 },
+                  stepSize: 1
+                }
+              },
+              x: {
+                ticks: {
+                  font: { size: 14 }
+                }
+              }
             }
           }
         });
       } else {
-        chart.data.labels = Object.keys(data);
-        chart.data.datasets[0].data = Object.values(data);
+        chart.data.datasets[0].data = values;
         chart.update();
       }
     }
 
+    function showWinner() {
+      if (Object.keys(currentData).length === 0) {
+        alert("Belum ada data voting!");
+        return;
+      }
+
+      // Cari pemenang
+      let winner = "";
+      let maxVotes = 0;
+      for (const [kandidat, count] of Object.entries(currentData)) {
+        if (count > maxVotes) {
+          maxVotes = count;
+          winner = kandidat;
+        }
+      }
+
+      const winnerCandidate = candidates[winner] || { name: winner, photo: "img/1.png" };
+
+      // Tampilkan modal
+      document.getElementById("winnerName").textContent = winnerCandidate.name;
+      document.getElementById("winnerVotes").textContent = maxVotes + " suara";
+      
+      // Tampilkan foto pemenang
+      const winnerPhotoEl = document.getElementById("winnerPhoto");
+      winnerPhotoEl.src = winnerCandidate.photo;
+      winnerPhotoEl.alt = winnerCandidate.name;
+      
+      document.getElementById("winnerModal").style.display = "block";
+
+      // Efek confetti
+      createConfetti();
+    }
+
+    function closeModal() {
+      document.getElementById("winnerModal").style.display = "none";
+    }
+
+    function createConfetti() {
+      const colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animation = "confettiFall 3s linear";
+          confetti.style.animationDelay = Math.random() * 0.5 + "s";
+          document.body.appendChild(confetti);
+
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+    }
+
     fetchData();
-    setInterval(fetchData, 5000); // update tiap 5 detik
+    setInterval(fetchData, 5000);
   </script>
 </body>
 </html>
