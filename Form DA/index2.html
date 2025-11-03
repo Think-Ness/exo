@@ -84,7 +84,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.95);
-            overflow: visible;
+            overflow: hidden;
         }
 
         .card-header {
@@ -398,13 +398,19 @@
                         </div>
                         
                         <div class="jersey-grid">
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="ukuranJersey" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="ukuranJersey"><i class="fas fa-ruler me-2"></i>Ukuran Jersey</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="ukuranJerseyDropdown"></div>
-                                <input type="hidden" id="ukuranJerseySelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="ukuranJersey" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="ukuranJersey"><i class="fas fa-ruler me-2"></i>Ukuran Jersey</label>
                             </div>
 
                             <div class="form-floating">
@@ -425,58 +431,94 @@
                         </div>
 
                         <div class="size-grid">
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="training" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="training"><i class="fas fa-running me-2"></i>Ukuran Training</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="trainingDropdown"></div>
-                                <input type="hidden" id="trainingSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="training" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="training"><i class="fas fa-running me-2"></i>Ukuran Training</label>
                             </div>
 
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="kaos" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="kaos"><i class="fas fa-tshirt me-2"></i>Ukuran Kaos</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="kaosDropdown"></div>
-                                <input type="hidden" id="kaosSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="kaos" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="kaos"><i class="fas fa-tshirt me-2"></i>Ukuran Kaos</label>
                             </div>
 
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="koko" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="koko"><i class="fas fa-user-tie me-2"></i>Ukuran Koko</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="kokoDropdown"></div>
-                                <input type="hidden" id="kokoSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="koko" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="13">13</option>
+                                    <option value="13.5">13.5</option>
+                                    <option value="14">14</option>
+                                    <option value="14.5">14.5</option>
+                                    <option value="15">15</option>
+                                    <option value="15.5">15.5</option>
+                                    <option value="16">16</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="koko"><i class="fas fa-user-tie me-2"></i>Ukuran Koko</label>
                             </div>
 
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="qomis" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="qomis"><i class="fas fa-mosque me-2"></i>Ukuran Qomis</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="qomisDropdown"></div>
-                                <input type="hidden" id="qomisSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="qomis" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="13">13</option>
+                                    <option value="13.5">13.5</option>
+                                    <option value="14">14</option>
+                                    <option value="14.5">14.5</option>
+                                    <option value="15">15</option>
+                                    <option value="15.5">15.5</option>
+                                    <option value="16">16</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="qomis"><i class="fas fa-mosque me-2"></i>Ukuran Qomis</label>
                             </div>
 
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="jacket" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="jacket"><i class="fas fa-vest me-2"></i>Ukuran Jacket</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="jacketDropdown"></div>
-                                <input type="hidden" id="jacketSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="jacket" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="jacket"><i class="fas fa-vest me-2"></i>Ukuran Jacket</label>
                             </div>
 
-                            <div class="search-dropdown">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="rompi" placeholder="Pilih Ukuran" autocomplete="off" required readonly>
-                                    <label for="rompi"><i class="fas fa-vest-patches me-2"></i>Ukuran Rompi</label>
-                                </div>
-                                <div class="search-dropdown-menu" id="rompiDropdown"></div>
-                                <input type="hidden" id="rompiSelected" required>
+                            <div class="form-floating">
+                                <select class="form-select" id="rompi" required>
+                                    <option value="">Pilih Ukuran</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                    <option value="CUSTOM">Lainnya...</option>
+                                </select>
+                                <label for="rompi"><i class="fas fa-vest-patches me-2"></i>Ukuran Rompi</label>
                             </div>
                         </div>
 
@@ -496,17 +538,6 @@
         
         let allNames = [];
         let currentSelectedName = '';
-
-        // Size options
-        const sizeOptions = {
-            ukuranJersey: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'CUSTOM'],
-            training: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'CUSTOM'],
-            kaos: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'CUSTOM'],
-            koko: ['13', '13.5', '14', '14.5', '15', '15.5', '16', 'CUSTOM'],
-            qomis: ['13', '13.5', '14', '14.5', '15', '15.5', '16', 'CUSTOM'],
-            jacket: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'CUSTOM'],
-            rompi: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'CUSTOM']
-        };
 
         // Show page after loading
         window.addEventListener('load', () => {
@@ -534,7 +565,6 @@
         const namaSelected = document.getElementById('namaSelected');
 
         namaSearch.addEventListener('focus', function() {
-            closeAllDropdowns();
             showDropdown('');
         });
 
@@ -610,69 +640,55 @@
             }
         });
 
-        // Setup searchable dropdowns for all size fields
-        function setupSizeDropdown(fieldId, options) {
-            const input = document.getElementById(fieldId);
-            const dropdown = document.getElementById(fieldId + 'Dropdown');
-            const hidden = document.getElementById(fieldId + 'Selected');
-
-            input.addEventListener('click', function() {
-                // Close all other dropdowns first
-                closeAllDropdowns();
-                showSizeDropdown(fieldId, options, '');
-            });
-
-            dropdown.addEventListener('click', async function(e) {
-                const item = e.target.closest('.search-dropdown-item');
-                if (!item) return;
-
-                if (item.dataset.value === 'CUSTOM') {
-                    const customSize = prompt('Masukkan ukuran custom:');
-                    if (customSize && customSize.trim()) {
-                        const trimmedSize = customSize.trim().toUpperCase();
-                        input.value = trimmedSize;
-                        hidden.value = trimmedSize;
-                    }
-                } else {
-                    const selectedValue = item.dataset.value;
-                    input.value = selectedValue;
-                    hidden.value = selectedValue;
-                }
-                dropdown.classList.remove('show');
-            });
-        }
-
-        function closeAllDropdowns() {
-            document.querySelectorAll('.search-dropdown-menu').forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
-        }
-
-        function showSizeDropdown(fieldId, options, searchText) {
-            const dropdown = document.getElementById(fieldId + 'Dropdown');
-            
-            let html = '';
-            options.forEach(opt => {
-                if (opt === 'CUSTOM') {
-                    html += `<div class="search-dropdown-item new-name" data-value="${opt}"><i class="fas fa-plus-circle me-2"></i>Lainnya...</div>`;
-                } else {
-                    html += `<div class="search-dropdown-item" data-value="${opt}">${opt}</div>`;
-                }
-            });
-            dropdown.innerHTML = html;
-            dropdown.classList.add('show');
-        }
-
-        // Initialize all size dropdowns
-        Object.keys(sizeOptions).forEach(fieldId => {
-            setupSizeDropdown(fieldId, sizeOptions[fieldId]);
-        });
-
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-dropdown')) {
-                closeAllDropdowns();
+                namaDropdown.classList.remove('show');
             }
+        });
+
+        // Handle "Lainnya" option for size dropdowns
+        const sizeSelects = ['ukuranJersey', 'training', 'kaos', 'jacket', 'rompi'];
+        sizeSelects.forEach(selectId => {
+            document.getElementById(selectId).addEventListener('change', function() {
+                if (this.value === 'CUSTOM') {
+                    const customSize = prompt('Masukkan ukuran custom:');
+                    if (customSize && customSize.trim()) {
+                        const option = document.createElement('option');
+                        option.value = customSize.trim().toUpperCase();
+                        option.textContent = customSize.trim().toUpperCase();
+                        option.selected = true;
+                        this.insertBefore(option, this.options[this.options.length - 1]);
+                    } else {
+                        this.value = '';
+                    }
+                }
+            });
+        });
+
+        // Handle "Lainnya" option for numeric size dropdowns (Koko & Qomis)
+        const numericSelects = ['koko', 'qomis'];
+        numericSelects.forEach(selectId => {
+            document.getElementById(selectId).addEventListener('change', function() {
+                if (this.value === 'CUSTOM') {
+                    const customSize = prompt('Masukkan ukuran (angka, bisa desimal):');
+                    if (customSize && customSize.trim()) {
+                        const numValue = parseFloat(customSize.trim());
+                        if (!isNaN(numValue) && numValue > 0) {
+                            const option = document.createElement('option');
+                            option.value = numValue;
+                            option.textContent = numValue;
+                            option.selected = true;
+                            this.insertBefore(option, this.options[this.options.length - 1]);
+                        } else {
+                            alert('Masukkan angka yang valid!');
+                            this.value = '';
+                        }
+                    } else {
+                        this.value = '';
+                    }
+                }
+            });
         });
 
         async function loadDataByName(nama) {
@@ -683,7 +699,6 @@
                 // Load Jersey Data
                 if (data.jersey) {
                     document.getElementById('ukuranJersey').value = data.jersey.ukuran || '';
-                    document.getElementById('ukuranJerseySelected').value = data.jersey.ukuran || '';
                     document.getElementById('namaJersey').value = data.jersey.namaJersey || '';
                     document.getElementById('nomorJersey').value = data.jersey.nomor || '';
                 }
@@ -691,17 +706,11 @@
                 // Load Ukuran Data
                 if (data.ukuran) {
                     document.getElementById('training').value = data.ukuran.training || '';
-                    document.getElementById('trainingSelected').value = data.ukuran.training || '';
                     document.getElementById('kaos').value = data.ukuran.kaos || '';
-                    document.getElementById('kaosSelected').value = data.ukuran.kaos || '';
                     document.getElementById('koko').value = data.ukuran.koko || '';
-                    document.getElementById('kokoSelected').value = data.ukuran.koko || '';
                     document.getElementById('qomis').value = data.ukuran.qomis || '';
-                    document.getElementById('qomisSelected').value = data.ukuran.qomis || '';
                     document.getElementById('jacket').value = data.ukuran.jacket || '';
-                    document.getElementById('jacketSelected').value = data.ukuran.jacket || '';
                     document.getElementById('rompi').value = data.ukuran.rompi || '';
-                    document.getElementById('rompiSelected').value = data.ukuran.rompi || '';
                 }
                 
                 document.getElementById('submitBtn').innerHTML = '<i class="fas fa-edit me-2"></i>Update Data';
@@ -713,21 +722,14 @@
 
         function clearForm() {
             document.getElementById('ukuranJersey').value = '';
-            document.getElementById('ukuranJerseySelected').value = '';
             document.getElementById('namaJersey').value = '';
             document.getElementById('nomorJersey').value = '';
             document.getElementById('training').value = '';
-            document.getElementById('trainingSelected').value = '';
             document.getElementById('kaos').value = '';
-            document.getElementById('kaosSelected').value = '';
             document.getElementById('koko').value = '';
-            document.getElementById('kokoSelected').value = '';
             document.getElementById('qomis').value = '';
-            document.getElementById('qomisSelected').value = '';
             document.getElementById('jacket').value = '';
-            document.getElementById('jacketSelected').value = '';
             document.getElementById('rompi').value = '';
-            document.getElementById('rompiSelected').value = '';
             document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save me-2"></i>Simpan Data';
         }
 
@@ -747,17 +749,17 @@
                 action: 'saveData',
                 nama: namaSelected.value,
                 jersey: {
-                    ukuran: document.getElementById('ukuranJerseySelected').value,
+                    ukuran: document.getElementById('ukuranJersey').value,
                     namaJersey: document.getElementById('namaJersey').value,
                     nomor: document.getElementById('nomorJersey').value
                 },
                 ukuran: {
-                    training: document.getElementById('trainingSelected').value,
-                    kaos: document.getElementById('kaosSelected').value,
-                    koko: document.getElementById('kokoSelected').value,
-                    qomis: document.getElementById('qomisSelected').value,
-                    jacket: document.getElementById('jacketSelected').value,
-                    rompi: document.getElementById('rompiSelected').value
+                    training: document.getElementById('training').value,
+                    kaos: document.getElementById('kaos').value,
+                    koko: document.getElementById('koko').value,
+                    qomis: document.getElementById('qomis').value,
+                    jacket: document.getElementById('jacket').value,
+                    rompi: document.getElementById('rompi').value
                 }
             };
 
